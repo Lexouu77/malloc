@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/29 22:30:11 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/11/29 22:39:37 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void			*create_memory_block(size_t size, size_t type)
 	m_zone->next = NULL;
 	if (type == LARGE)
 		return ((void*)&m_zone + SZ_BLOCK);
-	prefill_pages(type);
-	resize_page(size);
+	prefill_pages(type); // TODO ADD Address value ?
+	resize_page(size); // resize le size de la premiere page et change la valeur de son next a page->next + 8 + size
 	return ((void*)&m_zone + SZ_BLOCK + SZ_PAGE);
 }
 
