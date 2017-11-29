@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:03:24 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/29 18:34:26 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/11/29 22:22:25 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 int main(void)
 {
-	struct rlimit	t;
+//	struct rlimit	t;
 	t_page			l;
 	int				*p;
 	int		*x;
 	void	*q;
-
+/*
 	printf("r = %d\n", *(int*)malloc(0));
 
 	printf("%zu\n", -1);
@@ -47,6 +47,9 @@ int main(void)
 //	printf("%d\n", *((void*)l));
 
 	printf("zzzz%zu\n", ALIGN(31));
-
+*/
+	t_m_zone t;
+	printf("%d\n", &t);
+	printf("%d\n", ((void*)&t + 32));
 	return 0;
 }
