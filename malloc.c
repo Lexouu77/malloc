@@ -51,14 +51,14 @@ size_t			check_available_memory(size_t size, size_t type)
 	if (type == LARGE)
 		return (1);
 	ptr = m_zone;
-	i = 0;
+	i = 1;
 	while (ptr)
 	{
 		if (((ptr->mapped_size == (getpagesize() * TINY_N_PAGE) && type == TINY)
 			|| (ptr->mapped_size == (getpagesize() * SMALL_N_PAGE) &&
 				type == SMALL)) &&
-			(size <= (ptr->mapped_size - ptr->used_size + SZ_PAGE)))
-			return (i + 1);
+			(size <= (ptr->mapped_size - (ptr->used_size + SZ_PAGE))))
+			return (i);
 		i++;
 		ptr = ptr->next;
 	}
