@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/29 22:39:39 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/11/30 10:21:29 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define ALIGN_M_64BIT 8
 # define ALIGN_GETPAGESIZE getpagesize()
 
-# define N_MIN_ALLOC_PAGES 100
+# define N_MIN_ALLOC 100
 
 # define TINY_MAX 1696
 # define TINY_N_PAGE 42

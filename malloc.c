@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/29 22:39:37 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/11/30 10:21:31 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,24 @@ static size_t	get_map_size(size_t size, size_t type)
 	return (ALIGN(ALIGN_GETPAGESIZE, size));
 }
 
+void			prefill_pages(size_t type)
+{
+	size_t		i;
+	t_page		*ptr;
+
+	i = 0;
+	ptr = m_zone->pages;
+	while (i < N_MIN_ALLOC)
+	{
+		ptr->size = (type == TINY ? TINY_MAX : SMALL_MAX);
+		ptr->is_available = 1;
+		ptr->next = (void*)ptr + SZ_PAGE + (type == TINY ? TINY_MAX : SMALL_MAX);
+		ptr = ptr->next;
+		i++;
+	}
+	ptr->next = NULL;
+}
+
 void			*create_memory_block(size_t size, size_t type)
 {
 	const size_t	to_map_size = get_map_size(size, type);
@@ -35,10 +53,11 @@ void			*create_memory_block(size_t size, size_t type)
 	m_zone->pages = NULL;
 	m_zone->next = NULL;
 	if (type == LARGE)
-		return ((void*)&m_zone + SZ_BLOCK);
+		return ((void*)m_zone + SZ_BLOCK); // TODO Cast (void*)(char*)??
+	m_zone->pages = (void*)m_zone + SZ_BLOCK;
 	prefill_pages(type); // TODO ADD Address value ?
 	resize_page(size); // resize le size de la premiere page et change la valeur de son next a page->next + 8 + size
-	return ((void*)&m_zone + SZ_BLOCK + SZ_PAGE);
+	return ((void*)m_zone + SZ_BLOCK + SZ_PAGE);
 }
 
 size_t			check_available_memory(size_t size, size_t type)
