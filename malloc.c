@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/30 10:21:31 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/11/30 17:09:04 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void			prefill_pages(size_t type)
 void			*create_memory_block(size_t size, size_t type)
 {
 	const size_t	to_map_size = get_map_size(size, type);
+	t_page			*ptr;
+	t_page			*tmp;
 
 	if ((m_zone = (t_m_zone *)mmap(0, to_map_size, PROT_READ | PROT_WRITE,
 					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
@@ -56,7 +58,16 @@ void			*create_memory_block(size_t size, size_t type)
 		return ((void*)m_zone + SZ_BLOCK); // TODO Cast (void*)(char*)??
 	m_zone->pages = (void*)m_zone + SZ_BLOCK;
 	prefill_pages(type); // TODO ADD Address value ?
-	resize_page(size); // resize le size de la premiere page et change la valeur de son next a page->next + 8 + size
+	ptr = m_zone->pages;
+	tmp = m_zone->pages->next;
+	ptr->size = size;
+	ptr->is_available = 0;
+	ptr->next = (void*)ptr + SZ_PAGE + size;
+	ptr = ptr->next;
+	ptr->size = (2 * (type == TINY ? TINY_MAX : SMALL_MAX)) - size;
+	ptr->is_available = 1;
+	ptr->next = tmp->next;
+//	resize_page(size); // resize le size de la premiere page et change la valeur de son next a page->next + 8 + size
 	return ((void*)m_zone + SZ_BLOCK + SZ_PAGE);
 }
 
