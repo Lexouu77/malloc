@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/30 10:21:29 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/03 18:16:01 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,30 @@
 
 # define ALIGN(alignement, size) (size_t)size + alignement - 1 & (size_t)~(alignement - 1) // alignement to 8 or 4096
 # define ALIGN_M_64BIT 8
-# define ALIGN_GETPAGESIZE getpagesize()
+# define ALIGN_GETPAGESIZE (size_t)getpagesize()
 
 # define N_MIN_ALLOC 100
 
-# define TINY_MAX 1696
+# define TINY_MAX (size_t)1696
 # define TINY_N_PAGE 42
 
-# define SMALL_MAX 4768
+/*
+** (SZ_BLOCK + (N_MIN_ALLOC * SZ_PAGE) + (N_MIN_ALLOC * TINY_MAX)) / getpagesize
+** = TINY_N_PAGE
+** TODO Change TINY_N_PAGE par ce machin ?
+*/
+
+# define SMALL_MAX (size_t)4768
 # define SMALL_N_PAGE 117
 
-# define SZ_BLOCK sizeof(t_m_zone)
+# define SZ_BLOCK sizeof(t_block)
 # define SZ_PAGE sizeof(t_page)
 
 # define TINY 1
 # define SMALL 2
 # define LARGE 3
+
+extern	struct s_block	*g_m_block;
 
 typedef struct		s_page
 {
@@ -56,13 +64,13 @@ typedef struct		s_page
 **  
 */
 
-typedef struct		s_m_zone
+typedef struct		s_block
 {
 	size_t			mapped_size;
 	size_t			used_size;
 	struct s_page	*pages;
-	struct s_m_zone	*next;
-}					t_m_zone;
+	struct s_block	*next;
+}					t_block;
 
 /*
 ** total memory size mapped (TODO w/ or w/o sizeof(struct)  ??? -> WITH TO BE UNMAPPED (SIZE)

@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:03:24 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/11/29 22:39:41 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/03 15:52:36 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int main(void)
 */
 	t_m_zone t;
 	printf("%d\n", &t);
+	printf("%d\n", ((char*)&t + 32));
 	printf("%d\n", ((void*)&t + 32));
 	return 0;
 }
