@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/03 18:15:59 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/03 19:45:35 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,25 @@ static void		*queue_block(t_block *new_block, size_t type)
 				(type == LARGE ? 0 : SZ_PAGE)));
 }
 
-static void		resize_page(t_page *page, size_t size)
+static void		resize_page(t_page *page, size_t size) // TODO make it generic ? take a page ptr as arg (i.e. page number n) // TODO do another function to check if memory is available if yes, return number of page or pointer. then call resize_page
 {
-	
+	t_page			*ptr;
+	t_page			cpy;
 
+	/*
+	** TODO Faire un check de ptr next == NULL avant de call resize_page
+	*/
+	ptr = page;
+	cpy.size = ptr->next->size + ptr->size;
+	cpy.next = ptr->next->next;
+	ptr->size = size;
+	ptr->is_available = 0;
+	ptr->next = (void*)((char*)ptr + SZ_PAGE + size);
+	ptr = ptr->next;
+	ptr->size = cpy.size - size;
+	ptr->is_available = 1;
+	ptr->next = cpy.next;
+//	resize_page(size); // resize le size de la premiere page et change la valeur de son next a page->next + 8 + size
 }
 
 static void		*create_memory_block(size_t size, size_t type)
