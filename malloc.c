@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/03 19:45:35 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/04 18:45:57 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void		*queue_block(t_block *new_block, size_t type)
 				(type == LARGE ? 0 : SZ_PAGE)));
 }
 
+// TODO faire une fonction qui group les pages libres juste avant insert
+
 static void		resize_page(t_page *page, size_t size) // TODO make it generic ? take a page ptr as arg (i.e. page number n) // TODO do another function to check if memory is available if yes, return number of page or pointer. then call resize_page
 {
 	t_page			*ptr;
@@ -94,11 +96,12 @@ static void		*create_memory_block(size_t size, size_t type)
 					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_block->mapped_size = to_map_size;
-	new_block->used_size = SZ_BLOCK;
+	new_block->used_size = (type == LARGE ? to_map_size : SZ_BLOCK);
 	new_block->pages = NULL;
 	new_block->next = NULL;
 	if (type == LARGE)
 		return (queue_block(new_block, type));
+	new_block->used_size += SZ_PAGE + size;
 	ptr = (void*)((char*)new_block + SZ_BLOCK);
 	prefill_pages(ptr, type);
 	new_block->pages = ptr;
@@ -121,6 +124,37 @@ static void		*create_memory_block(size_t size, size_t type)
 	return ((void*)((char*)g_m_block + SZ_BLOCK + SZ_PAGE));*/
 }
 
+static void		group_pages(t_block *block)
+{
+	t_page	*ptr;
+
+	ptr = block->pages;
+	while (ptr && ptr->next)
+	{
+		if (!ptr->is_available || !ptr->next->is_available)
+		{
+			ptr = ptr->next;
+			continue ;
+		}
+		ptr->next = ptr->next->next;
+		ptr->size += ptr->next->size + SZ_PAGE;
+	}
+}
+
+static size_t	check_pages_available_memory(t_block *block, size_t size)
+{
+	t_page	*ptr;
+
+	ptr = block->pages;
+	while (ptr)
+	{
+		if (ptr->is_available && ptr->size >= size)
+			return (1);
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
 static size_t	check_available_memory(size_t size, size_t type)
 {
 	t_block	*ptr;
@@ -132,10 +166,14 @@ static size_t	check_available_memory(size_t size, size_t type)
 	i = 1;
 	while (ptr)
 	{
+		group_pages(ptr);
+		// TODO Change le if par une fonction qui check la page->size.
 		if (((ptr->mapped_size == ((size_t)getpagesize() * TINY_N_PAGE) &&
 			type == TINY) || (ptr->mapped_size == ((size_t)getpagesize() *
 				SMALL_N_PAGE) && type == SMALL)) &&
-					(size <= (ptr->mapped_size - (ptr->used_size + SZ_PAGE))))
+					(size <= (ptr->mapped_size - (ptr->used_size + SZ_PAGE)))
+					&& check_pages_available_memory(ptr, size))
+			//TODO check si une page a assez de memoire. + fusionner les pages juste avant
 			return (i);
 		i++;
 		ptr = ptr->next;
@@ -180,12 +218,7 @@ void			*malloc(size_t size)
 	n = 0;
 	type = get_map_type(aligned_size);
 	if ((n = check_available_memory(aligned_size, type)))
-	{
-	//	if (type == LARGE)
-	//		return (create_and_queue_block(ALIGN(ALIGN_GETPAGESIZE, size)));
-	//	else
-			return (find_and_insert_page(aligned_size, type, n)); // TODO queue it in send_memory_pointer if type == LARGE create a new and queue. TODO change name, maybe do a queue function and create?/ another or w/e
-	}
+		return (find_and_insert_page(aligned_size, type, n)); // TODO queue it in send_memory_pointer if type == LARGE create a new and queue. TODO change name, maybe do a queue function and create?/ another or w/e
 	// TODO IF cant resize or break pages, call check_available_memory from block->n*next etc, if not possible  just do a new one.
 	return (create_memory_block(aligned_size, type));
 }

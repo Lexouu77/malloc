@@ -12,4 +12,4 @@
 - [ ] Show_memory_map
 - [ ] Thread Safe
 
-todo add size used when resizing also add block as argument   
+todo add size used when resizing also add block as argument ? 
