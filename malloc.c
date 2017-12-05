@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/05 21:22:04 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/05 23:46:14 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,30 @@ static void		*check_available_memory(size_t size, size_t type) // TODO CHANGE IT
 	return (NULL);
 }
 
+void			*insert_page(size_t size, void *ptr) // garder le block en memoire pour changer sa used_size.
+{
+	t_block	*block;
+	t_page	*page;
+
+	block = g_m_block;
+	while (block)
+	{
+		if (!block->next)
+			break ;
+		if (ptr > (void*)block && ptr < (void*)block->next)
+			break ;
+		block = block->next;
+	}
+	page = ptr;
+	block->used_size += SZ_PAGE + size;
+	page->next = (void*)((char*)page + SZ_PAGE + size);
+	page->is_available = 0;
+	page->next->size = block->mapped_size - block->used_size - SZ_PAGE;
+	page->next->is_available = 1;
+	page->next->next = NULL;
+	return ((void*)((char*)page + SZ_PAGE));
+}
+
 size_t			get_map_type(size_t size)
 {
 	if (size <= TINY_MAX)
@@ -145,7 +169,16 @@ void			*malloc(size_t size)
 	ptr = 0;
 //	type = get_map_type(aligned_size);
 	if ((ptr = check_available_memory(aligned_size, type)))
-		return (find_and_insert_page(aligned_size, type, ptr)); // TODO queue it in send_memory_pointer if type == LARGE create a new and queue. TODO change name, maybe do a queue function and create?/ another or w/e
+		return (insert_page(aligned_size, ptr)); // TODO queue it in send_memory_pointer if type == LARGE create a new and queue. TODO change name, maybe do a queue function and create?/ another or w/e
 	// TODO IF cant resize or break pages, call check_available_memory from block->n*next etc, if not possible  just do a new one.
 	return (create_memory_block(aligned_size, type));
 }
+// lock
+// void *newptr;
+// if ((ptr = check_available_memory(aligned_size, type)))
+//		 newptr =  (insert_page(aligned_size, ptr));
+//	else
+//		 newptr = create_memory_block(aligned_size, type));
+//	unlock
+//	return (newptr);
+

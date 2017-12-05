@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/05 21:22:07 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/05 23:46:15 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void				*create_memory_block(size_t size, size_t type); // realloc
 size_t				get_map_type(size_t size); // free // realloc
 size_t				get_map_size(size_t size, size_t type); // show mem alloc memory // free
 void				group_pages(t_block *block); // free
+void				*insert_page(size_t size, void *ptr); // realloc
 void				*malloc(size_t size);
 void				*queue_block(t_block *new_block, size_t type); // realloc if not enough size.
 
