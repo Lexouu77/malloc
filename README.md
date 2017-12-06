@@ -1,15 +1,15 @@
-#Malloc
+# Malloc
 
 ### Malloc personnal implemention (C)
 
-- [x] Thinking + Good values
-- [ ] Make Generic functions
-- [ ] Finish Makefile
-- [x] Create new block
-- [ ] Insert in block + check functions before
-- [ ] Memory defrag
-- [ ] Free
-- [ ] Show_memory_map
-- [ ] Thread Safe
+- [ ] Makefile
 
-todo add size used when resizing also add block as argument ? 
+- [x] malloc
+- [x] Free
+- [ ] realloc
+- [ ] Show_memory_map
+
+- [ ] Show_memory_map_hexa
+- [x] Memory defrag
+- [x] Memory opti + 8bits aligned + Limited syscall number.
+- [ ] Thread Safe

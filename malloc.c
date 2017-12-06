@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/06 20:48:11 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/06 21:00:52 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void			*create_memory_block(size_t size, size_t type)
 	return (queue_block(new_block, type));
 }
 
-static void		*check_available_memory(size_t size, size_t type) // TODO CHANGE IT. return 2 int ? n block n page ? return POINTER ?
-{
+static void		*check_available_memory(size_t size, size_t type)
+		{
 	t_block	*ptr;
 	t_page	*page;
 
