@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:03:24 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/03 15:52:36 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/06 20:13:19 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,24 @@ int main(void)
 
 	printf("zzzz%zu\n", ALIGN(31));
 */
-	t_m_zone t;
-	printf("%d\n", &t);
-	printf("%d\n", ((char*)&t + 32));
-	printf("%d\n", ((void*)&t + 32));
+//	t_m_zone t;
+//	printf("%d\n", &t);
+//	printf("%d\n", ((char*)&t + 32));
+//	printf("%d\n", ((void*)&t + 32));
+	void	*a;
+	void	*b;
+	void	*c;
+	void	*d;
+	a = mmap(0, 4096, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	printf("%d\n", a);
+	b = mmap(0, 4096, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	printf("%d\n", b);
+	c = mmap(0, 4096, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	printf("%d\n", c);
+	d = mmap(0, 4096, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	printf("%d\n", d);
+	munmap(b, 4096);
+	b = mmap(0, 4096, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	printf("%d\n", b);
 	return 0;
 }

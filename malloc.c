@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/05 23:46:14 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/06 20:20:43 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,17 @@ void			*queue_block(t_block *new_block, size_t type)
 	}
 	ptr = g_m_block;
 	while (ptr->next)
+	{
+		if ((void*)new_block > (void*)ptr && (void*)new_block <
+				(void*)ptr->next)
+		{
+			new_block->next = ptr->next;
+			ptr->next = new_block;
+			return ((void*)((char*)new_block + SZ_BLOCK +
+				(type == LARGE ? 0 : SZ_PAGE)));
+		}
 		ptr = ptr->next;
+	}
 	ptr->next = new_block;
 	return ((void*)((char*)new_block + SZ_BLOCK +
 				(type == LARGE ? 0 : SZ_PAGE)));
