@@ -40,7 +40,7 @@ static size_t	is_unmappable(t_block *block)
 	return (0);
 }
 
-static void		set_unavailable(t_block *block, void *ptr)
+static int		set_unavailable(t_block *block, void *ptr)
 {
 	t_page	*page;
 
@@ -53,8 +53,11 @@ static void		set_unavailable(t_block *block, void *ptr)
 			break ;
 		page = page->next;
 	}
+	if ((void*)ptr != (void*)page)
+		return (1)
 	page->is_available = 1;
 	block->used_size -= (SZ_PAGE + page->size);
+	return (0);
 }
 
 static void		cut_link(t_block *block)
@@ -81,11 +84,12 @@ void			free(void *ptr) // TODO add un arg pour specifier si force unmap.pour rea
 	block = g_m_block;
 	while (block->next)
 	{
-		if (ptr > (void*)block && ptr < (void*)block->next) // >= ? no.
+		if (ptr > (void*)block && ptr < (void*)block->next) // >= ? no. // OR ptr > block && ptr < block + block->mapped_size?
 			break ;
 		block = block->next;
 	}
-	set_unavailable(block, ptr);
+	if (set_unavailable(block, ptr))
+		return ;
 	if (is_unmappable(block)) // check LARGE
 		cut_link(block);
 	else
