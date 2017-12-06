@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/06 20:20:43 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/06 20:48:11 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,38 +78,6 @@ void			*create_memory_block(size_t size, size_t type)
 	return (queue_block(new_block, type));
 }
 
-void			group_pages(t_block *block) // dans le free TODO
-{
-	t_page	*ptr;
-
-	ptr = block->pages;
-	while (ptr && ptr->next)
-	{
-		if (!ptr->is_available || !ptr->next->is_available)
-		{
-			ptr = ptr->next;
-			continue ;
-		}
-		ptr->next = ptr->next->next;
-		ptr->size += ptr->next->size + SZ_PAGE;
-	}
-}
-/*
-static size_t	check_pages_available_memory(t_block *block, size_t size)
-{
-	t_page	*ptr;
-
-	ptr = block->pages;
-	while (ptr)
-	{
-		if (ptr->is_available && ptr->size >= size)
-			return (1);
-		ptr = ptr->next;
-	}
-	return (0);
-}
-*/
-
 static void		*check_available_memory(size_t size, size_t type) // TODO CHANGE IT. return 2 int ? n block n page ? return POINTER ?
 {
 	t_block	*ptr;
@@ -125,7 +93,7 @@ static void		*check_available_memory(size_t size, size_t type) // TODO CHANGE IT
 		{
 			while (page)
 			{
-				if (page->is_available && page->size >= size) // TODO faire un next lors de l'insert. si pas de place, pas en faire.
+				if (page->is_available && page->size >= size)
 					return (page);
 				page = page->next;
 			}
@@ -135,7 +103,7 @@ static void		*check_available_memory(size_t size, size_t type) // TODO CHANGE IT
 	return (NULL);
 }
 
-void			*insert_page(size_t size, void *ptr) // garder le block en memoire pour changer sa used_size.
+void			*insert_page(size_t size, void *ptr)
 {
 	t_block	*block;
 	t_page	*page;
@@ -145,7 +113,7 @@ void			*insert_page(size_t size, void *ptr) // garder le block en memoire pour c
 	{
 		if (!block->next)
 			break ;
-		if (ptr > (void*)block && ptr < (void*)block->next)
+		if (ptr > (void*)block && ptr < (void*)block->next) // >= ? no.
 			break ;
 		block = block->next;
 	}
