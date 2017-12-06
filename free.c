@@ -31,7 +31,7 @@ static void		group_pages(t_block *block)
 	}
 }
 
-static size_t	is_unmappable(t_block *block)
+static size_t		is_unmappable(t_block *block)
 {
 	if (!block->pages)
 		return (1);
@@ -40,7 +40,7 @@ static size_t	is_unmappable(t_block *block)
 	return (0);
 }
 
-static int		set_unavailable(t_block *block, void *ptr)
+static size_t		set_unavailable(t_block *block, void *ptr)
 {
 	t_page	*page;
 
