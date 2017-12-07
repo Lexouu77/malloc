@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/07 22:20:14 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/07 22:02:24 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,25 +112,24 @@ void			*insert_page(size_t size, void *ptr)
 	t_page	*page;
 
 	block = g_m_block;
-	while (block && block->next) // TODO USE GET BLOCK.
+	while (block) // TODO USE GET BLOCK.
 	{
+		if (!block->next)
+			break ;
 		if (ptr > (void*)block && ptr < (void*)block->next) // >= ? no.
 			break ;
 		block = block->next;
 	}
 	page = ptr;
 	block->used_size += SZ_PAGE + size;
+	if (block->mapped_size - SZ_PAGE <= 8)
+		page->next = NULL;
+	page->next = (void*)((char*)page + SZ_PAGE + size);
 	page->is_available = 0;
 	page->size = size;
-	if (block->mapped_size - SZ_PAGE <= 8 && page->next && page->next->is_available)
-		page->next = NULL;
-	else
-	{
-		page->next = (void*)((char*)page + SZ_PAGE + size);
-		page->next->size = block->mapped_size - block->used_size - SZ_PAGE;
-		page->next->is_available = 1;
-		page->next->next = NULL;
-	}
+	page->next->size = block->mapped_size - block->used_size - SZ_PAGE;
+	page->next->is_available = 1;
+	page->next->next = NULL;
 	return ((void*)((char*)page + SZ_PAGE));
 }
 
