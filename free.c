@@ -54,7 +54,7 @@ static size_t		set_unavailable(t_block *block, void *ptr)
 		page = page->next;
 	}
 	if ((void*)ptr != (void*)page)
-		return (1)
+		return (1);
 	page->is_available = 1;
 	block->used_size -= (SZ_PAGE + page->size);
 	return (0);
