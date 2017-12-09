@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/09 22:02:04 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/09 22:08:25 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ void			free(void *ptr) // TODO add un arg pour specifier si force unmap.pour rea
 	if (set_unavailable(block, ptr))
 		return ;
 	if (is_unmappable(block)) // check LARGE
+	{
 		cut_link(block);
+		munmap(block, block->mapped_size);
+	}
 	else
 		group_pages(block);
-	munmap(block, block->mapped_size);
 }
