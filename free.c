@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/07 22:20:13 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/09 22:02:04 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void				group_pages(t_block *block)
 			ptr = ptr->next;
 			continue ;
 		}
-		ptr->next = ptr->next->next;
 		ptr->size += ptr->next->size + SZ_PAGE;
+		ptr->next = ptr->next->next;
 	}
 }
 
@@ -44,7 +44,7 @@ static size_t		set_unavailable(t_block *block, void *ptr)
 {
 	t_page	*page;
 
-	if (!block->pages && (void*)ptr != (void*)block + SZ_BLOCK)
+	if (!block->pages && (void*)ptr != (void*)block + SZ_BLOCK) // LARGE fail
 		return (1);
 	page = block->pages;
 	while (page->next)
