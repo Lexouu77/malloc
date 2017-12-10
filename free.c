@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/10 17:59:28 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/10 18:30:20 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ static size_t		is_unmappable(t_block *block)
 	return (0);
 }
 
-static size_t		set_unavailable(t_block *block, void *ptr)
+static size_t		set_available(t_block *block, void *ptr)
 {
 	t_page	*page;
 
-	if (!block->pages && (void*)ptr != (void*)((char*)block + SZ_BLOCK)) // LARGE fail
-		return (1);
+	if (!block->pages)
+		return ((void*)ptr == (void*)((char*)block + SZ_BLOCK) ? 0 : 1);
 //	printf("PRE OK\n");
 	page = block->pages;
 	while (page->next)
@@ -93,7 +93,7 @@ void			ffree(void *ptr) // TODO add un arg pour specifier si force unmap.pour re
 			break ;
 		block = block->next;
 	}
-	if (set_unavailable(block, ptr))
+	if (set_available(block, ptr))
 		return ;
 	if (is_unmappable(block)) // check LARGE
 	{
