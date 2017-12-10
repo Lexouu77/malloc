@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/07 22:20:15 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/10 17:59:31 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define ALIGN(alignement, size) (size_t)size + alignement - 1 & (size_t)~(alignement - 1) // alignement to 8 or 4096
 # define ALIGN_M_64BIT 8
-# define ALIGN_GETPAGESIZE (size_t)getpagesize()
+//# define ALIGN_GETPAGESIZE (size_t)getpagesize()
 
 # define N_MIN_ALLOC 100
 
@@ -80,12 +80,14 @@ typedef struct		s_block
 */
 
 void				*create_memory_block(size_t size, size_t type); // realloc malloc
-void				free(void *ptr);
+void				end_free(void)__attribute__ ((destructor));
+void				ffree(void *ptr);
+void				*get_block(void *ptr);
 size_t				get_map_type(size_t size); // realloc malloc
 size_t				get_map_size(size_t size, size_t type); // show mem alloc memory
 void				group_pages(t_block *block);
 void				*insert_page(size_t size, void *ptr); // realloc
-void				*malloc(size_t size);
+void				*ft_malloc(size_t size);
 void				*queue_block(t_block *new_block, size_t type); // realloc if not enough size.
 void				*realloc(void *ptr, size_t size);
 

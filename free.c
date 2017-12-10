@@ -6,11 +6,13 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/09 22:08:25 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/10 17:59:28 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+#include <stdio.h>
 
 //TODO display nb of pages showall
 
@@ -44,22 +46,25 @@ static size_t		set_unavailable(t_block *block, void *ptr)
 {
 	t_page	*page;
 
-	if (!block->pages && (void*)ptr != (void*)block + SZ_BLOCK) // LARGE fail
+	if (!block->pages && (void*)ptr != (void*)((char*)block + SZ_BLOCK)) // LARGE fail
 		return (1);
+//	printf("PRE OK\n");
 	page = block->pages;
 	while (page->next)
 	{
-		if ((void*)ptr == (void*)page)
+//		printf("%p - %p - %p\n",g_m_block, ptr, (void*)((char*)page + SZ_PAGE));
+		if ((void*)ptr == (void*)((char*)page + SZ_PAGE))
 			break ;
 		page = page->next;
 	}
-	if ((void*)ptr != (void*)page)
+	if ((void*)ptr != (void*)((char*)page + SZ_PAGE))
 		return (1);
+//	printf("LALALA\n");
 	page->is_available = 1;
 	block->used_size -= (SZ_PAGE + page->size);
 	return (0);
 }
-
+/*
 static void		cut_link(t_block *block)
 {
 	t_block	*ptr;
@@ -74,8 +79,8 @@ static void		cut_link(t_block *block)
 		ptr->next = block->next;
 	}
 }
-
-void			free(void *ptr) // TODO add un arg pour specifier si force unmap.pour realloc ?
+*/
+void			ffree(void *ptr) // TODO add un arg pour specifier si force unmap.pour realloc ?
 {
 	t_block	*block;
 
@@ -92,9 +97,26 @@ void			free(void *ptr) // TODO add un arg pour specifier si force unmap.pour rea
 		return ;
 	if (is_unmappable(block)) // check LARGE
 	{
-		cut_link(block);
-		munmap(block, block->mapped_size);
+//		cut_link(block);
+	//	munmap(block, block->mapped_size);
 	}
 	else
 		group_pages(block);
+}
+
+void		end_free(void)
+{
+	t_block	*block;
+	size_t	*total_size;
+
+	if (!g_m_block)
+		return ;
+	total_size = 0;
+	block = g_m_block;
+	while (block)
+	{
+		total_size += block->mapped_size;
+		block = block->next;
+	}
+	munmap(block, block->mapped_size);
 }
