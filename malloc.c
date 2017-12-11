@@ -6,13 +6,11 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/10 17:59:23 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/11 21:11:56 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-#include <stdio.h>
 
 t_block	*g_m_block = NULL;
 
@@ -66,11 +64,8 @@ void			*get_block(void *ptr)
 		if (ptr > (void*)block && ptr < (void*)block->next)
 			return (block);
 		block = block->next;
-//		if (!block->next)
-//			return (block);
 	}
 	return (block);
-//	return (NULL);
 }
 
 void			*insert_page(size_t size, void *ptr)
@@ -80,7 +75,7 @@ void			*insert_page(size_t size, void *ptr)
 	t_page	*tmp;
 
 	if (!(block = get_block(ptr)))
-		return (NULL); // extra safe ?
+		return (NULL);
 	page = ptr;
 	page->is_available = 0;
 	if (SZ_PAGE + 8 <= page->size - size)
@@ -98,10 +93,6 @@ void			*insert_page(size_t size, void *ptr)
 	return ((void*)((char*)page + SZ_PAGE));
 }
 
-/*
-** Adding SZ_PAGE to used_size when changing to unavailable a page. (if free(block)) and used_size == SZ_BLOCK -> unmap.
-*/
-
 void			*create_memory_block(size_t size, size_t type)
 {
 	const size_t	to_map_size = get_map_size(size, type);
@@ -111,7 +102,6 @@ void			*create_memory_block(size_t size, size_t type)
 	if ((new_block = (t_block *)mmap(0, to_map_size, PROT_READ | PROT_WRITE,
 					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
-//	printf("Block = %p, size = %zu\n", (void*)new_block, to_map_size);
 	new_block->mapped_size = to_map_size;
 	new_block->used_size = (type == LARGE ? size : SZ_BLOCK);
 	new_block->pages = NULL;
@@ -141,7 +131,7 @@ static void		*check_available_memory(size_t size, size_t type)
 	while (ptr)
 	{
 		page = ptr->pages;
-		if (page && (size + SZ_PAGE <= ptr->mapped_size - ptr->used_size ))
+		if (page && (size + SZ_PAGE <= ptr->mapped_size - ptr->used_size))
 		{
 			while (page)
 			{
@@ -155,7 +145,7 @@ static void		*check_available_memory(size_t size, size_t type)
 	return (NULL);
 }
 
-size_t	get_map_type(size_t size)
+size_t			get_map_type(size_t size)
 {
 	if (size <= TINY_MAX)
 		return (TINY);
@@ -164,7 +154,7 @@ size_t	get_map_type(size_t size)
 	return (LARGE);
 }
 
-void			*ft_malloc(size_t size)
+void			*malloc(size_t size)
 {
 	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size);
 	const size_t	type = get_map_type(aligned_size);
@@ -176,5 +166,3 @@ void			*ft_malloc(size_t size)
 		return (insert_page(aligned_size, ptr));
 	return (create_memory_block(aligned_size, type));
 }
-
-

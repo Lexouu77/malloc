@@ -6,13 +6,11 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/11 19:00:22 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/11 21:11:27 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-#include <stdio.h>
 
 //TODO display nb of pages showall
 
@@ -48,24 +46,21 @@ static size_t		set_available(t_block *block, void *ptr)
 
 	if (!block->pages)
 		return ((void*)ptr == (void*)((char*)block + SZ_BLOCK) ? 0 : 1);
-//	printf("PRE OK\n");
 	page = block->pages;
 	while (page->next)
 	{
-//		printf("%p - %p - %p\n",g_m_block, ptr, (void*)((char*)page + SZ_PAGE));
 		if ((void*)ptr == (void*)((char*)page + SZ_PAGE))
 			break ;
 		page = page->next;
 	}
 	if ((void*)ptr != (void*)((char*)page + SZ_PAGE))
 		return (1);
-//	printf("LALALA\n");
 	page->is_available = 1;
 	block->used_size -= (SZ_PAGE + page->size);
 	return (0);
 }
-/*
-static void		cut_link(t_block *block)
+
+static void			cut_link(t_block *block)
 {
 	t_block	*ptr;
 
@@ -79,44 +74,30 @@ static void		cut_link(t_block *block)
 		ptr->next = block->next;
 	}
 }
-*/
-void			ffree(void *ptr) // TODO add un arg pour specifier si force unmap.pour realloc ?
+
+void				free(void *ptr)
 {
 	t_block	*block;
 
-	if (!ptr || !g_m_block) // nice try.
+	if (!ptr || !g_m_block)
 		return ;
 	block = g_m_block;
 	while (block->next)
 	{
-		if (ptr > (void*)block && ptr < (void*)block->next) // >= ? no. // OR ptr > block && ptr < block + block->mapped_size?
+		if (ptr > (void*)block && ptr < (void*)block->next)
 			break ;
 		block = block->next;
 	}
 	if (set_available(block, ptr))
 		return ;
-	if (is_unmappable(block)) // check LARGE // TODO munmap large.
+	if (is_unmappable(block))
 	{
-//		cut_link(block);
-	//	munmap(block, block->mapped_size);
+		if (!block->pages)
+		{
+			cut_link(block);
+			munmap(block, block->mapped_size);
+		}
 	}
 	else
 		group_pages(block);
-}
-
-void		end_free(void)
-{
-	t_block	*block;
-	size_t	*total_size;
-
-	if (!g_m_block)
-		return ;
-	total_size = 0;
-	block = g_m_block;
-	while (block)
-	{
-		total_size += block->mapped_size;
-		block = block->next;
-	}
-	munmap(block, block->mapped_size);
 }

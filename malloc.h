@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/11 19:00:21 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/11 21:04:20 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ typedef struct		s_block
 
 void				*create_memory_block(size_t size, size_t type);
 void				end_free(void) __attribute__((destructor));
-void				ffree(void *ptr);
+void				free(void *ptr);
 void				*get_block(void *ptr);
 size_t				get_map_type(size_t size);
 size_t				get_map_size(size_t size, size_t type);
 void				group_pages(t_block *block);
 void				*insert_page(size_t size, void *ptr);
-void				*ft_malloc(size_t size);
+void				*malloc(size_t size);
 void				*queue_block(t_block *new_block, size_t type);
 void				*realloc(void *ptr, size_t size);
 
