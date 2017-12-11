@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/10 17:59:31 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/11 19:00:21 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@
 # include <unistd.h>
 # include <sys/resource.h>
 
-# define ALIGN(alignement, size) (size_t)size + alignement - 1 & (size_t)~(alignement - 1) // alignement to 8 or 4096
+# define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
 # define ALIGN_M_64BIT 8
-//# define ALIGN_GETPAGESIZE (size_t)getpagesize()
+
+/*
+** # define ALIGN_GETPAGESIZE (size_t)getpagesize()
+*/
 
 # define N_MIN_ALLOC 100
 
@@ -54,14 +57,6 @@ typedef struct		s_page
 
 /*
 ** >s_page_ptr<[size][is_available][next]..data
-** sizeof of incoming data.
-** is available
-** TODO Should i prefill it ? y
-** TODO faire une fonction resize page en changeant size et la valeur de next
-*/
-
-/*
-**  
 */
 
 typedef struct		s_block
@@ -72,23 +67,16 @@ typedef struct		s_block
 	struct s_block	*next;
 }					t_block;
 
-/*
-** total memory size mapped (TODO w/ or w/o sizeof(struct)  ??? -> WITH TO BE UNMAPPED (SIZE)
-** used_size. 32
-** ptr to pages.
-** next m_block if next == NULL -> LARGE
-*/
-
-void				*create_memory_block(size_t size, size_t type); // realloc malloc
-void				end_free(void)__attribute__ ((destructor));
+void				*create_memory_block(size_t size, size_t type);
+void				end_free(void) __attribute__((destructor));
 void				ffree(void *ptr);
 void				*get_block(void *ptr);
-size_t				get_map_type(size_t size); // realloc malloc
-size_t				get_map_size(size_t size, size_t type); // show mem alloc memory
+size_t				get_map_type(size_t size);
+size_t				get_map_size(size_t size, size_t type);
 void				group_pages(t_block *block);
-void				*insert_page(size_t size, void *ptr); // realloc
+void				*insert_page(size_t size, void *ptr);
 void				*ft_malloc(size_t size);
-void				*queue_block(t_block *new_block, size_t type); // realloc if not enough size.
+void				*queue_block(t_block *new_block, size_t type);
 void				*realloc(void *ptr, size_t size);
 
 #endif
