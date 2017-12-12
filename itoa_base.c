@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   end_free.c                                         :+:      :+:    :+:   */
+/*   itoa_base.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 18:39:16 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/12 22:12:01 by ahamouda         ###   ########.fr       */
+/*   Created: 2016/07/05 04:43:33 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/12 22:11:57 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		end_free(void)
+static char	get_base_char(char c)
 {
-	t_block	*block;
-	t_block	*to_kill;
+	if (c >= 10 && c <= 15)
+		return (65 + (c - 10));
+	return (48 + c);
+}
 
-	if (!g_m_block)
-		return ;
-	block = g_m_block;
-	while (block)
+char		*itoa_base(void *x, unsigned long base)
+{
+	char			str[32];
+	int				size;
+	unsigned long	nb;
+
+	nb = (unsigned long long)x;
+	size = 1; // + 2 ?
+	while (nb /= base)
+		++size;
+	//str = 
+	// bzero str
+	nb = (unsigned long long)x;
+	while (--size >= 0)
 	{
-		to_kill = block;
-		block = block->next;
-		munmap(to_kill, to_kill->mapped_size);
+		str[size] = get_base_char((char)(nb % base));
+		nb /= base;
 	}
+	return (str);
 }

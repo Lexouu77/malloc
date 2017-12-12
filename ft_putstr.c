@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   end_free.c                                         :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 18:39:16 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/12 22:12:01 by ahamouda         ###   ########.fr       */
+/*   Created: 2016/07/05 04:43:04 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/12 21:42:20 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		end_free(void)
+static size_t	ft_strlen(char *s)
 {
-	t_block	*block;
-	t_block	*to_kill;
+	size_t	i;
 
-	if (!g_m_block)
-		return ;
-	block = g_m_block;
-	while (block)
-	{
-		to_kill = block;
-		block = block->next;
-		munmap(to_kill, to_kill->mapped_size);
-	}
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+void			ft_putstr(const char *s)
+{
+	write(1, s, ft_strlen(s));
 }

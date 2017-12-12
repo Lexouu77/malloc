@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   end_free.c                                         :+:      :+:    :+:   */
+/*   get_map_type.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 18:39:16 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/12 22:12:01 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/12 21:32:36 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/12 21:32:52 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		end_free(void)
+size_t			get_map_type(size_t size)
 {
-	t_block	*block;
-	t_block	*to_kill;
-
-	if (!g_m_block)
-		return ;
-	block = g_m_block;
-	while (block)
-	{
-		to_kill = block;
-		block = block->next;
-		munmap(to_kill, to_kill->mapped_size);
-	}
+	if (size <= TINY_MAX)
+		return (TINY);
+	if (size <= SMALL_MAX)
+		return (SMALL);
+	return (LARGE);
 }

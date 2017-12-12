@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/11 21:11:56 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/12 22:11:59 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,7 @@
 
 t_block	*g_m_block = NULL;
 
-size_t			get_map_size(size_t size, size_t type)
-{
-	if (type == TINY)
-		return ((size_t)getpagesize() * TINY_N_PAGE);
-	if (type == SMALL)
-		return ((size_t)getpagesize() * SMALL_N_PAGE);
-	return (ALIGN((size_t)getpagesize(), size + SZ_BLOCK)); // remove SZ_BLOCK if showmemalloc ?
-}
-
-void			*queue_block(t_block *new_block, size_t type)
+static void		*queue_block(t_block *new_block, size_t type)
 {
 	t_block	*ptr;
 
@@ -52,23 +43,7 @@ void			*queue_block(t_block *new_block, size_t type)
 				(type == LARGE ? 0 : SZ_PAGE)));
 }
 
-void			*get_block(void *ptr)
-{
-	t_block	*block;
-
-	if (!g_m_block)
-		return (NULL);
-	block = g_m_block;
-	while (block->next)
-	{
-		if (ptr > (void*)block && ptr < (void*)block->next)
-			return (block);
-		block = block->next;
-	}
-	return (block);
-}
-
-void			*insert_page(size_t size, void *ptr)
+static void		*insert_page(size_t size, void *ptr)
 {
 	t_block	*block;
 	t_page	*page;
@@ -93,7 +68,7 @@ void			*insert_page(size_t size, void *ptr)
 	return ((void*)((char*)page + SZ_PAGE));
 }
 
-void			*create_memory_block(size_t size, size_t type)
+static void		*create_memory_block(size_t size, size_t type)
 {
 	const size_t	to_map_size = get_map_size(size, type);
 	t_page			*ptr;
@@ -143,15 +118,6 @@ static void		*check_available_memory(size_t size, size_t type)
 		ptr = ptr->next;
 	}
 	return (NULL);
-}
-
-size_t			get_map_type(size_t size)
-{
-	if (size <= TINY_MAX)
-		return (TINY);
-	if (size <= SMALL_MAX)
-		return (SMALL);
-	return (LARGE);
 }
 
 void			*malloc(size_t size)
