@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/13 19:34:35 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/13 19:57:29 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,11 +52,13 @@ SRC_SUBDIR += .
 
 SRC = end_free.c
 SRC += free.c
+SRC += ft_putchar.c
 SRC += ft_putstr.c
+SRC += ft_putnbr_hexa.c
+SRC += ft_memcpy.c
 SRC += get_block.c
 SRC += get_map_size.c
 SRC += get_map_type.c
-SRC += itoa_base.c
 SRC += malloc.c
 SRC += realloc.c
 SRC += show_alloc_mem.c

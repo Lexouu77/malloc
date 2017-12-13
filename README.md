@@ -13,3 +13,4 @@
 - [x] Memory defrag
 - [x] Memory opti + 8bits aligned + Limited syscall number.
 - [ ] Thread Safe
+- [ ] Unmap the memory at the end of program.

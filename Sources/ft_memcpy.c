@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   itoa_base.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/05 04:43:33 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/13 19:04:12 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/13 19:42:19 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/13 19:42:29 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static char	get_base_char(char c)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	if (c >= 10 && c <= 15)
-		return (65 + (c - 10));
-	return (48 + c);
-}
+	size_t i;
 
-char		*itoa_base(void *x, unsigned long base)
-{
-	char			str[32];
-	int				size;
-	unsigned long	nb;
-
-	nb = (unsigned long long)x;
-	size = 1; // + 2 ?
-	while (nb /= base)
-		++size;
-	//str = 
-	// bzero str
-	nb = (unsigned long long)x;
-	while (--size >= 0)
+	i = 0;
+	while (i < n)
 	{
-		str[size] = get_base_char((char)(nb % base));
-		nb /= base;
+		((char*)dest)[i] = ((const char*)src)[i];
+		i++;
 	}
-	return (str);
+	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/07 22:20:12 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/13 19:53:08 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ static void		*remap_block(void *ptr, size_t size)
 }
 
 
-
+// if LARGE and enough size, don't free., but memcpy ?
 void			*realloc(void *ptr, size_t size)
 {
-	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size);
+	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size); // no need to call get_map_size cause malloc.
 	void			*mapped_ptr;
 
 	if (!ptr && !size)

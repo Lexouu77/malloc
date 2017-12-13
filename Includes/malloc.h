@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/12 21:54:18 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/13 19:48:27 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ typedef struct		s_block
 
 void				end_free(void) __attribute__((destructor));
 void				free(void *ptr);
+void				*ft_memcpy(void *dest, const void *src, size_t n);
+void				ft_putchar(char c);
+void				ft_putnbr_hexa(void *ptr);
 void				ft_putstr(const char *s);
 void				*get_block(void *ptr);
-size_t				get_map_type(size_t size);
 size_t				get_map_size(size_t size, size_t type);
-void				group_pages(t_block *block);
+size_t				get_map_type(size_t size);
 void				*malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
 void				show_alloc_mem(void);
