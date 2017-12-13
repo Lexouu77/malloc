@@ -1,46 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_alloc_mem.c                                   :+:      :+:    :+:   */
+/*   end_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 21:38:59 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/12 22:11:54 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/12 18:39:16 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/13 19:04:10 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static void display_address(t_block *block)
+void		end_free(void)
 {
-	ft_putstr("0x");
-	ft_putstr(itoa_base((void*)block));
-}
-
-static void	display_type(t_block *block)
-{
-	if (!block->pages)
-		ft_putstr("LARGE : ");
-	else if (block->mapped_size == TINY_N_PAGE * getpagesize())
-		ft_putstr("TINY : ");
-	else
-		ft_putstr("SMALL : ");
-}
-
-void		show_alloc_mem(void)
-{
-	t_block		*block;
+	t_block	*block;
+	t_block	*to_kill;
 
 	if (!g_m_block)
-	return ;
+		return ;
 	block = g_m_block;
 	while (block)
 	{
-		display_type(block);
-		display_address(block);
-
+		to_kill = block;
 		block = block->next;
+		munmap(to_kill, to_kill->mapped_size);
 	}
-
 }
