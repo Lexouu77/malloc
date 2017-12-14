@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/13 19:57:29 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/14 21:25:56 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,15 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
+LINK = libft_malloc.so
+
 CC = clang
 
 RM = rm -f
 
 ## Flags.
 
-CFLAGS = -Wall -Werror -Wextra -Weverything
+CFLAGS = -Wall -Werror -Wextra -Weverything -fPIC
 
 #SFLAGS = -Weverything
 #OFLAGS = -O3 -march=native
@@ -55,6 +57,7 @@ SRC += free.c
 SRC += ft_putchar.c
 SRC += ft_putstr.c
 SRC += ft_putnbr_hexa.c
+SRC += ft_putnbr.c
 SRC += ft_memcpy.c
 SRC += get_block.c
 SRC += get_map_size.c
@@ -67,17 +70,20 @@ vpath %.c $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 
 #.SILENT:
 
-all : $(NAME)
+all : $(NAME) $(LINK)
 
 $(NAME) : $(OBJECTS)
-	$(CC) $(CFLAGS) -shared -o $@ $< -I $(HEADER_PATH)
-	ln -sf $(NAME) libft_malloc.so
+	$(CC) $^ -shared -o $@
+
+$(LINK) :
+	ln -sf $(NAME) $(LINK)
+
 
 
 $(OBJECTS): $(HEADERS) | $(OBJ_PATH)
 
 $(OBJECTS): $(OBJ_PATH)/%.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS) -I $(HEADER_PATH)
+	$(CC) -o $@ -c $< $(CFLAGS) -I$(HEADER_PATH)
 
 $(OBJ_PATH):
 	@-mkdir -p $@
@@ -86,7 +92,7 @@ clean:
 	$(RM) -r $(OBJ_PATH)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(LINK)
 
 re: fclean all
 

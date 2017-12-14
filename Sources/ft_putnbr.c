@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/13 19:42:19 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/13 19:59:17 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/14 21:01:52 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/14 21:02:02 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void		ft_putnbr(int nb)
 {
-	size_t i;
-
-	i = 0;
-	while (i < n)
+	if (nb < 0)
 	{
-		((char*)dest)[i] = ((const char*)src)[i];
-		i++;
+		write(1, "-", 1);
+		nb = -nb;
 	}
-	return (dest);
+	if (nb <= 9)
+		ft_putchar((char)(nb + 48));
+	else
+	{
+		ft_putnbr(nb / 10);
+		ft_putnbr(nb % 10);
+	}
 }

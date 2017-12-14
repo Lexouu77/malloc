@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/05 04:43:33 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/13 19:57:08 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/14 21:15:46 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		ft_putnbr_hexa(void *nb)
 	}
 	else
 	{
-		ft_putnbr_hexa((void*)((size_t)nb / 10));
-		ft_putnbr_hexa((void*)((size_t)nb % 10));
+		ft_putnbr_hexa((void*)((size_t)nb / 16));
+		ft_putnbr_hexa((void*)((size_t)nb % 16));
 	}
 }

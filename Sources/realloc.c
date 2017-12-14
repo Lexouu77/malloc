@@ -6,12 +6,12 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/13 19:53:08 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/14 21:10:01 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
+/*
 static size_t	is_mapped(void *ptr)
 {
 	t_block	*block;
@@ -130,6 +130,7 @@ static void		*remap_block(void *ptr, size_t size)
 }
 
 
+*/
 // if LARGE and enough size, don't free., but memcpy ?
 void			*realloc(void *ptr, size_t size)
 {
@@ -140,16 +141,18 @@ void			*realloc(void *ptr, size_t size)
 		return (NULL);
 	if (!ptr)
 		return (malloc(size));
-	if (!is_mapped(ptr))
-		return (malloc(size));
-	if (is_remappable(ptr, aligned_size))
-		return (remap_block(ptr, aligned_size)); // change g_m_block to block then call malloc then switch back ?
+	//if (!is_mapped(ptr))
+	//	return (malloc(size));
+//	if (is_remappable(ptr, aligned_size))
+//		return (remap_block(ptr, aligned_size)); // change g_m_block to block then call malloc then switch back ?
 	if (!(mapped_ptr = malloc(aligned_size)))
 		return (NULL);
 	//TODO memcpy
+	ft_memcpy(mapped_ptr, ptr, size);
 	free(ptr);
 	return (mapped_ptr);
 }
+//what if size is higher than mapped_size
 
 /*
 ** NULL NULL -> NULL

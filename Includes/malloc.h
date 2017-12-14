@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/13 19:48:27 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/14 21:15:37 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void				free(void *ptr);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				ft_putchar(char c);
 void				ft_putnbr_hexa(void *ptr);
+void				ft_putnbr(int nb);
 void				ft_putstr(const char *s);
 void				*get_block(void *ptr);
 size_t				get_map_size(size_t size, size_t type);
