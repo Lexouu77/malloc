@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:38:59 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/14 21:14:42 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/14 21:45:53 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void display_address(t_block *block)
 {
 	printf("%p\n", (void*)block);
 	ft_putstr("0x");
-	ft_putnbr_hexa((void*)block);
+	ft_putnbr_hexa((size_t)block);
 	ft_putchar('\n');
 }
 

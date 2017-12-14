@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/14 21:25:56 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/14 21:46:09 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,9 @@ fclean: clean
 
 re: fclean all
 
+test:
+	gcc Test/test.c -L./ libft_malloc.so -I Includes
+
 norme:
 	-@ ! norminette -R CheckTopCommentHeader $(SRC_PATH) | grep -v -B 1 "^Norme" || true
 	-@ ! norminette -R CheckTopCommentHeader $(HEADER_PATH) | grep -v -B 1 "^Norme" || true
@@ -106,4 +109,4 @@ watch:
 function:
 	nm -u $(NAME)
 
-.PHONY: re fclean clean norme watch function
+.PHONY: re fclean clean norme watch function test
