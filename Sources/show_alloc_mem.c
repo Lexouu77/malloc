@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:38:59 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/14 21:45:53 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/15 19:59:41 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void display_address(t_block *block)
 {
 	printf("%p\n", (void*)block);
 	ft_putstr("0x");
-	ft_putnbr_hexa((size_t)block);
+	ft_putnbr_hexa(block);
 	ft_putchar('\n');
 }
 
@@ -45,7 +45,6 @@ void		show_alloc_mem(void)
 	{
 		display_type(block);
 		display_address(block);
-
 		block = block->next;
 	}
 

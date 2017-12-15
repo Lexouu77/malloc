@@ -6,13 +6,13 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/14 21:46:19 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/15 19:31:11 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-//TODO display nb of pages showall
+//TODO display nb of pages/alloc showall
 
 static void			group_pages(t_block *block)
 {

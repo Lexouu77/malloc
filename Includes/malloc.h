@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/14 21:15:37 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/15 19:43:11 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define TINY 1
 # define SMALL 2
 # define LARGE 3
+# define HEXATABLE "0123456789ABCDEF"
 
 extern	struct s_block	*g_m_block;
 

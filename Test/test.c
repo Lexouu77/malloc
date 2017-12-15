@@ -6,14 +6,17 @@ int main(void)
 	char *addr;
 
 	i = 0;
-	while (i < 10)
+	while (i < 100024)
 	{
-		addr = (char*)malloc(1024);
+		addr = (char*)malloc(5097);
 		addr[0] = 42;
-		show_alloc_mem();
-	//	printf("OK\n");
+		free(addr);
+		addr = (char*)malloc(1097);
+		addr[0] = 42;
 		i++;
+		free(addr);
 	}
+	show_alloc_mem();
 	return (0);
 }
 /*
