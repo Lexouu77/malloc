@@ -6,13 +6,13 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/17 14:59:06 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 16:13:19 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/17 17:28:56 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-size_t			display_type_and_address(t_block *block, size_t b)
+void		display_type_and_address(t_block *block, size_t b)
 {
 	if (!block->pages)
 	{

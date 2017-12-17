@@ -6,28 +6,21 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/14 21:46:14 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/17 20:20:39 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-/*
+
 static size_t	is_mapped(void *ptr)
 {
 	t_block	*block;
 	t_page	*page;
 
-	if (!g_m_block)
+	if (!(block = get_block(ptr)))
 		return (0);
-	block = g_m_block;
-	while (block->next)
-	{
-		if (ptr > (void*)block && ptr < (void*)block->next)
-			break ;
-		block = block->next;
-	}
-	if (!block->pages && (void*)ptr != (void*)block + SZ_BLOCK)
-		return (0);
+	if (!block->pages)
+		return (((void*)ptr == (void*)block + SZ_BLOCK) ? 1 : 0);
 	page = block->pages;
 	while (page->next)
 	{
@@ -39,7 +32,7 @@ static size_t	is_mapped(void *ptr)
 		return (0);
 	return (1);
 }
-
+/*
 static size_t	check_next_pages(t_page *page, size_t size)
 {
 	size_t	total_size;
@@ -60,34 +53,26 @@ static size_t	check_next_pages(t_page *page, size_t size)
 
 // TODO if page..[<SZ_PAGE][next]
 // add la size superflue a la page.
-
+*/
 static size_t	is_remappable(void *ptr, size_t size)
 {
-	t_block	*block;
-	t_page	*page;
+	const t_block	*block = get_block(ptr);
+	t_page			*page;
 
-	block = g_m_block;
-	while (block->next)
-	{
-		if (ptr > (void*)block && ptr < (void*)block->next)
-			break ;
-		block = block->next;
-	}
-	if (!block->pages && block->mapped_size >= size)
+	if (!page)
+		return ((block->mapped_size - SZ_BLOCK >= size) ? 1 : 0);
+	//group_pages(block);
+	page = get_page(ptr, block);
+	if (page->size >= size) // return ptr.
 		return (1);
-	page = block->pages;
-	while (page->next)
-	{
-		if ((void*)ptr == (void*)page)
-			break ;
-		page = page->next;
-	}
-	if (block->used_size + (size - page->size) <= block->mapped_size ||
-			page->size >= size || check_next_pages(page, size))
+	if (!page->next || (page->next && !page->next->is_available)) // new
+		return (0);
+	if (page->next->is_available
+		&& page->next->size + page->size + SZ_PAGE >= size) // remap
 		return (1);
 	return (0);
 }
-
+/*
 // TODO Faire une fonction get block(ptr)
 // retournant le block contenant cett adresse.
 
@@ -100,7 +85,20 @@ static void		fusion_pages(t_block *block, t_page *page, size_t size)
 	page->next = page->next->next;
 	// todo created next if possible (if page->size - size - SZ_PAGE >= 8 created next else nope and leave.
 }
+*/
 
+static void		*remap_block(void *ptr, size_t size)
+{
+	const	t_block	*block = get_block(ptr);
+	t_page			*page;
+
+	page = get_page(block);
+	if (!block->pages || page->size >= size)
+		return (ptr);
+	
+}
+
+/*
 static void		*remap_block(void *ptr, size_t size)
 {
 	t_block	*block;
@@ -131,33 +129,30 @@ static void		*remap_block(void *ptr, size_t size)
 
 
 */
-// if LARGE and enough size, don't free., but memcpy ?
 void			*realloc(void *ptr, size_t size)
 {
-	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size); // no need to call get_map_size cause malloc.
 	void			*mapped_ptr;
 
-	if (!ptr && !size)
-		return (NULL);
-	if (!ptr)
+	if (!ptr || !is_mapped(ptr))
 		return (malloc(size));
-	//if (!is_mapped(ptr))
-	//	return (malloc(size));
-//	if (is_remappable(ptr, aligned_size))
-//		return (remap_block(ptr, aligned_size)); // change g_m_block to block then call malloc then switch back ?
-	if (!(mapped_ptr = malloc(aligned_size)))
+	if (!size)
+	{
+		free(ptr);
 		return (NULL);
-	//TODO memcpy
-	ft_memcpy(mapped_ptr, ptr, size);
-	free(ptr);
+	}
+	if (is_remappable(ptr, size))
+		return (remap_block(ptr, size));
+	if ((mapped_ptr = malloc(size)))
+	{
+		ft_memcpy(mapped_ptr, ptr, size);
+		free(ptr);
+	}
 	return (mapped_ptr);
 }
-//what if size is higher than mapped_size
 
 /*
-** NULL NULL -> NULL
-** NULL x -> malloc(size)
-** x NULL -> free(ptr)
-** x x -> malloc memcpy free
-** if ptr is invalid -> undefined behavior. in my case. return malloc(size)
+** OK NULL x -> malloc(size)
+** OK x NULL -> free(ptr)
+** x x -> malloc memcpy free or return same ptr after remap(or not).
+** OK if ptr is invalid -> undefined behavior. in my case. return malloc(size)
 */

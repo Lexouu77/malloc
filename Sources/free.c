@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/15 19:31:11 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/17 19:38:41 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //TODO display nb of pages/alloc showall
 
-static void			group_pages(t_block *block)
+void				group_pages(t_block *block)
 {
 	t_page	*ptr;
 

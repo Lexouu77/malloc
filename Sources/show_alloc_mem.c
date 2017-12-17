@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:38:59 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 16:41:12 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/17 17:31:49 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static size_t	display_not_pages(t_block *block, size_t b)
 void			show_alloc_mem(void)
 {
 	t_block		*block;
-	size_t		type;
 	size_t		total;
 	
 	if (!g_m_block)
@@ -63,7 +62,7 @@ void			show_alloc_mem(void)
 	block = g_m_block;
 	while (block)
 	{
-		type = display_type_and_address(block, DISPLAY_MORE);
+		display_type_and_address(block, DISPLAY_MORE);
 		if (block->pages)
 		 	total += display_pages(block, DISPLAY_MORE);
 		else
