@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/14 21:46:09 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/17 15:54:52 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,9 @@ OBJECTS = $(addprefix $(OBJ_PATH)/, $(SRC:%.c=%.o))
 SRC_PATH = ./Sources
 SRC_SUBDIR += .
 
-SRC = end_free.c
+SRC = check_mapped_size_and_type.c
+SRC += display_type_and_address.c
+SRC += end_free.c
 SRC += free.c
 SRC += ft_putchar.c
 SRC += ft_putstr.c
@@ -102,6 +104,8 @@ test:
 norme:
 	-@ ! norminette -R CheckTopCommentHeader $(SRC_PATH) | grep -v -B 1 "^Norme" || true
 	-@ ! norminette -R CheckTopCommentHeader $(HEADER_PATH) | grep -v -B 1 "^Norme" || true
+
+#	cat $(SRC) | grep "include <*>" | sort -u
 
 watch:
 	watch "make norme" "50"

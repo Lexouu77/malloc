@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/15 19:59:25 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/17 15:54:12 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static void		*check_available_memory(size_t size, size_t type)
 	while (ptr)
 	{
 		page = ptr->pages;
-		if (page && (size + SZ_PAGE <= ptr->mapped_size - ptr->used_size))
+		if (page && check_mapped_size_and_type(ptr, size, type))
 		{
 			while (page)
 			{

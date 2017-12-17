@@ -6,15 +6,15 @@ int main(void)
 	char *addr;
 
 	i = 0;
-	while (i < 100024)
+	while (i < 5)
 	{
+			addr = (char*)malloc(1097);
+		addr[0] = 42;
 		addr = (char*)malloc(5097);
 		addr[0] = 42;
-		free(addr);
-		addr = (char*)malloc(1097);
+		addr = (char*)malloc(2997);
 		addr[0] = 42;
 		i++;
-		free(addr);
 	}
 	show_alloc_mem();
 	return (0);

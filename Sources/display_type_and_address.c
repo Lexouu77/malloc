@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   display_type_and_address.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/14 21:01:52 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 16:17:53 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/17 14:59:06 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/17 16:13:19 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		ft_putnbr(size_t nb)
+size_t			display_type_and_address(t_block *block, size_t b)
 {
-	if (nb <= 9)
-		ft_putchar((char)(nb + 48));
-	else
+	if (!block->pages)
 	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
+		ft_putstr("LARGE : ");
+		ft_putnbr_hexa(block, (b ? 0 : 1));
+		return (LARGE);
 	}
+	else if (block->mapped_size == TINY_N_PAGE * (size_t)getpagesize())
+	{
+		ft_putstr("TINY  : ");
+		ft_putnbr_hexa(block, (b ? 0 : 1));
+		return (TINY);
+	}
+	ft_putstr("SMALL : ");
+	ft_putnbr_hexa(block, (b ? 0 : 1));
+	return (SMALL);
 }
