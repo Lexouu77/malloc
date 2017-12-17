@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 15:54:12 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/17 16:51:02 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,32 @@
 
 t_block	*g_m_block = NULL;
 
-static void		*queue_block(t_block *new_block, size_t type)
+static void		*queue_block(t_block *block, size_t type)
 {
 	t_block	*ptr;
 
-	if (!g_m_block || (void*)new_block < (void*)g_m_block)
+	if (!g_m_block || (void*)block < (void*)g_m_block)
 	{
-		if ((void*)new_block < (void*)g_m_block)
-			new_block->next = g_m_block;
-		g_m_block = new_block;
-		return ((void*)((char*)new_block + SZ_BLOCK +
+		if ((void*)block < (void*)g_m_block)
+			block->next = g_m_block;
+		g_m_block = block;
+		return ((void*)((char*)block + SZ_BLOCK +
 					(type == LARGE ? 0 : SZ_PAGE)));
 	}
 	ptr = g_m_block;
 	while (ptr->next)
 	{
-		if ((void*)new_block > (void*)ptr)
+		if ((void*)block > (void*)ptr && (void*)block < (void*)ptr->next)
 		{
-			new_block->next = ptr->next;
-			ptr->next = new_block;
-			return ((void*)((char*)new_block + SZ_BLOCK +
+			block->next = ptr->next;
+			ptr->next = block;
+			return ((void*)((char*)block + SZ_BLOCK +
 				(type == LARGE ? 0 : SZ_PAGE)));
 		}
 		ptr = ptr->next;
 	}
-	ptr->next = new_block;
-	return ((void*)((char*)new_block + SZ_BLOCK +
+	ptr->next = block;
+	return ((void*)((char*)block + SZ_BLOCK +
 				(type == LARGE ? 0 : SZ_PAGE)));
 }
 

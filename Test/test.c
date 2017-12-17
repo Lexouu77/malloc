@@ -8,11 +8,12 @@ int main(void)
 	i = 0;
 	while (i < 5)
 	{
-			addr = (char*)malloc(1097);
+		addr = (char*)malloc(1097);
 		addr[0] = 42;
-		addr = (char*)malloc(5097);
+			addr = (char*)malloc(2997);
+		
 		addr[0] = 42;
-		addr = (char*)malloc(2997);
+	addr = (char*)malloc(5097);
 		addr[0] = 42;
 		i++;
 	}
