@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:35:04 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 19:44:12 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/19 20:14:46 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void			*get_page(void*ptr, t_block *block)
 	page = block->pages;
 	while (page)
 	{
-		if ((void*)page == ptr)
+		if ((void*)((char *)page + SZ_PAGE) == ptr)
 			break ;
 		page = page->next;
 	}

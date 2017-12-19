@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 19:38:38 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/19 20:14:45 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void				ft_putnbr_hexa(void *ptr, size_t line_feed);
 void				ft_putnbr(size_t nb);
 void				ft_putstr(const char *s);
 void				*get_block(void *ptr);
+void				*get_page(void *ptr, t_block *block);
 size_t				get_map_size(size_t size, size_t type);
 size_t				get_map_type(size_t size);
 void				group_pages(t_block *block);
