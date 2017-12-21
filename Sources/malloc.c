@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 16:51:02 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/21 21:25:14 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,12 @@ void			*malloc(size_t size)
 	const size_t	type = get_map_type(aligned_size);
 	void			*ptr;
 
+// if trylock (cause called from realloc ?)
+//	if fail, call lock to block till you can lock.
 	if (!size)
 		return (NULL);
 	if ((ptr = check_available_memory(aligned_size, type)))
 		return (insert_page(aligned_size, ptr));
+	// stock dans return et unlock
 	return (create_memory_block(aligned_size, type));
 }
