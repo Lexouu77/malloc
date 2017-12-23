@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_hexa.c                                   :+:      :+:    :+:   */
+/*   test1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/05 04:43:33 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 21:03:27 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/23 20:51:08 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/23 21:04:36 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include <stdio.h>
 
-void		ft_putnbr_hexa(void *ptr, size_t line_feed)
+int main(void)
 {
-	char			str[14];
-	int				size;
-	unsigned long	nb;
+	int i;
+	char *addr;
 
-	nb = (unsigned long long)ptr;
-	size = 3;
-	while (nb /= 16)
-		++size;
-	if (line_feed)
+	i = 0;
+	while (i < 1)
 	{
-		str[size] = '\n';
-		str[size + 1] = 0;
+		addr = (char*)malloc(1097);
+		addr[0] = 42;
+		free(addr);
+		addr = (char*)malloc(2997);
+		addr[0] = 42;
+		addr = (char*)malloc(5097);
+		addr[0] = 42;
+		i++;
 	}
-	else
-		str[size] = 0;
-	
-	nb = (unsigned long long)ptr;
-	while (--size >= 0)
-	{
-		str[size] = HEXATABLE[nb % 16];
-		nb /= 16;
-	}
-	str[0] = '0';
-	str[1] = 'x';
-	ft_putstr(str);
+	show_alloc_mem();
+	return (0);
 }

@@ -6,19 +6,17 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:38:59 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/19 20:14:00 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/23 21:08:47 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static size_t	display_pages(t_block *block, size_t b)
+static size_t	display_pages(t_block *block)
 {
 	t_page	*ptr;
 	size_t	size;
 
-	if (b)
-		b = 0;
 	size = 0;
 	ptr = block->pages;
 	while (ptr)
@@ -38,10 +36,8 @@ static size_t	display_pages(t_block *block, size_t b)
 	return (size);
 }
 
-static size_t	display_not_pages(t_block *block, size_t b)
+static size_t	display_large(t_block *block)
 {
-	if (b)
-		b = 0;
 	ft_putnbr_hexa((void*)block, 0);
 	ft_putstr(" - ");
 	ft_putnbr_hexa((void*)((char*)block + block->used_size), 0);
@@ -55,18 +51,23 @@ void			show_alloc_mem(void)
 {
 	t_block		*block;
 	size_t		total;
-	
+
 	if (!g_m_block)
-	return ;
+		return ;
 	total = 0;
 	block = g_m_block;
 	while (block)
 	{
-		display_type_and_address(block, DISPLAY_MORE);
+		if (block->pages && block->used_size == SZ_BLOCK)
+		{
+			block = block->next;
+			continue ;
+		}
+		display_type_and_address(block);
 		if (block->pages)
-		 	total += display_pages(block, DISPLAY_MORE);
+			total += display_pages(block);
 		else
-			total += display_not_pages(block, DISPLAY_MORE);
+			total += display_large(block);
 		block = block->next;
 	}
 	ft_putstr("Total : ");

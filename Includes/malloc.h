@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/19 20:14:45 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/23 22:03:25 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@
 
 # define HEXATABLE "0123456789ABCDEF"
 
-# define DISPLAY_MORE (size_t)0
-
 extern	struct s_block	*g_m_block;
 
 typedef struct		s_page
@@ -68,7 +66,7 @@ typedef struct		s_block
 }					t_block;
 
 size_t				check_mapped_size_and_type(t_block *p, size_t s, size_t t);
-void				display_type_and_address(t_block *block, size_t b);
+void				display_type_and_address(t_block *block);
 void				end_free(void) __attribute__((destructor));
 void				free(void *ptr);
 void				*ft_memcpy(void *dest, const void *src, size_t n);

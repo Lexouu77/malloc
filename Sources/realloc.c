@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/21 21:36:34 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/23 22:04:04 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static size_t	is_mapped(void *ptr)
 	page = block->pages;
 	while (page->next)
 	{
-		if ((void*)ptr == (void*)page)
+		if ((void*)ptr == (void*)((char*)page + SZ_PAGE))
 			break ;
 		page = page->next;
 	}
-	if ((void*)ptr != (void*)page)
+	if ((void*)ptr != (void*)((char*)page + SZ_PAGE))
 		return (0);
 	return (1);
 }
@@ -99,12 +99,15 @@ static size_t	is_same_type(void *ptr, size_t size)
 	return (0);
 }
 
+
 void			*realloc(void *ptr, size_t size)
 {
 	void			*mapped_ptr;
 
-	if (!ptr || !is_mapped(ptr))
+	if (!ptr)
 		return (malloc(size));
+	if (!is_mapped(ptr))
+		return (NULL);
 	if (!size)
 	{
 		free(ptr);
@@ -124,6 +127,6 @@ void			*realloc(void *ptr, size_t size)
 ** NULL x -> malloc(size)
 ** x NULL -> free(ptr)
 ** x x -> malloc memcpy free or return same ptr after remap(or not).
-** if ptr is invalid -> undefined behavior. in my case. return malloc(size)
+** if ptr is invalid -> undefined behavior.
 ** if you're realloacing differents types, you'll get a new malloced part.
 */
