@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 22:03:25 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 14:40:31 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,12 @@ typedef struct		s_block
 	struct s_block	*next;
 }					t_block;
 
+void				*calloc(size_t count, size_t size);
 size_t				check_mapped_size_and_type(t_block *p, size_t s, size_t t);
 void				display_type_and_address(t_block *block);
 void				end_free(void) __attribute__((destructor));
 void				free(void *ptr);
+void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				ft_putchar(char c);
 void				ft_putnbr_hexa(void *ptr, size_t line_feed);
@@ -81,6 +83,7 @@ size_t				get_map_type(size_t size);
 void				group_pages(t_block *block);
 void				*malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
+void				*reallocf(void *ptr, size_t size);
 void				show_alloc_mem(void);
 
 #endif

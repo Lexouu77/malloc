@@ -13,4 +13,6 @@
 - [x] Memory opti + 8bits aligned + Limited syscall number.
 - [ ] Thread Safe
 - [x] Unmap the memory at the end of program.
-- [ ] add another bonus (calloc valloc etc -> man malloc)
+- [x] calloc
+- [x] reallocf
+- [ ] logfile

@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/17 15:54:52 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/25 14:40:42 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,20 +52,23 @@ OBJECTS = $(addprefix $(OBJ_PATH)/, $(SRC:%.c=%.o))
 SRC_PATH = ./Sources
 SRC_SUBDIR += .
 
-SRC = check_mapped_size_and_type.c
+SRC = calloc.c
+SRC += check_mapped_size_and_type.c
 SRC += display_type_and_address.c
 SRC += end_free.c
 SRC += free.c
+SRC += ft_bzero.c
+SRC += ft_memcpy.c
 SRC += ft_putchar.c
 SRC += ft_putstr.c
 SRC += ft_putnbr_hexa.c
 SRC += ft_putnbr.c
-SRC += ft_memcpy.c
 SRC += get_block.c
 SRC += get_map_size.c
 SRC += get_map_type.c
 SRC += malloc.c
 SRC += realloc.c
+SRC += reallocf.c
 SRC += show_alloc_mem.c
 
 vpath %.c $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))

@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 22:04:04 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 14:41:52 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,3 @@ void			*realloc(void *ptr, size_t size)
 	}
 	return (mapped_ptr);
 }
-
-/*
-** NULL x -> malloc(size)
-** x NULL -> free(ptr)
-** x x -> malloc memcpy free or return same ptr after remap(or not).
-** if ptr is invalid -> undefined behavior.
-** if you're realloacing differents types, you'll get a new malloced part.
-*/

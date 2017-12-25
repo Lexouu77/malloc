@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test4.c                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/23 20:51:08 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 23:44:15 by ahamouda         ###   ########.fr       */
+/*   Created: 2016/07/05 04:42:45 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/25 14:27:10 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <stdio.h>
 
-int main(void)
+void	ft_bzero(void *s, size_t n)
 {
-	int i;
-	char *addr;
-	char *adr;
+	size_t i;
 
-	//i = 0;
-	//while (i < 1)
-	//{
-		addr = (char*)malloc(1097);
-		addr[0] = 42;
-		adr = (char*)malloc(1080);
-		addr = realloc(addr, 800);
-		show_alloc_mem();
-		addr = malloc(5);
-		show_alloc_mem();
-
-	//}
-	//show_alloc_mem();
-	return (0);
+	i = 0;
+	while (i < n)
+		((char*)s)[i++] = 0;
 }

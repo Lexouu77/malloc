@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test4.c                                            :+:      :+:    :+:   */
+/*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/23 20:51:08 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 23:44:15 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/25 14:06:37 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/25 14:42:05 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <stdio.h>
 
-int main(void)
+void	*calloc(size_t count, size_t size)
 {
-	int i;
-	char *addr;
-	char *adr;
+	void	*ptr;
 
-	//i = 0;
-	//while (i < 1)
-	//{
-		addr = (char*)malloc(1097);
-		addr[0] = 42;
-		adr = (char*)malloc(1080);
-		addr = realloc(addr, 800);
-		show_alloc_mem();
-		addr = malloc(5);
-		show_alloc_mem();
-
-	//}
-	//show_alloc_mem();
-	return (0);
+	ptr = malloc(count * size);
+	if (ptr)
+		ft_bzero(ptr, ALIGN(ALIGN_M_64BIT, count * size));
+	return (ptr);
 }
