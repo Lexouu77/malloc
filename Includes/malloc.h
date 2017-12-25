@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/25 14:40:31 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 18:29:22 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/mman.h>
 # include <unistd.h>
 # include <sys/resource.h>
+# include <pthread.h>
 
 # define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
 # define ALIGN_M_64BIT 8
@@ -48,7 +49,14 @@
 
 # define HEXATABLE "0123456789ABCDEF"
 
-extern	struct s_block	*g_m_block;
+# define MALLOC_F 1
+# define FREE_F 2
+# define REALLOC_F 3
+# define REALLOCF_F 4
+# define CALLOC_F 5
+
+extern	struct s_block		*g_m_block;
+extern	pthread_mutex_t		g_m_mutex;
 
 typedef struct		s_page
 {
@@ -81,6 +89,7 @@ void				*get_page(void *ptr, t_block *block);
 size_t				get_map_size(size_t size, size_t type);
 size_t				get_map_type(size_t size);
 void				group_pages(t_block *block);
+size_t				is_mapped(void *ptr);
 void				*malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
 void				*reallocf(void *ptr, size_t size);

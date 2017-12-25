@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:38:59 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 21:08:47 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 18:41:07 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void			show_alloc_mem(void)
 
 	if (!g_m_block)
 		return ;
+	pthread_mutex_lock(&g_m_mutex);
 	total = 0;
 	block = g_m_block;
 	while (block)
@@ -64,13 +65,11 @@ void			show_alloc_mem(void)
 			continue ;
 		}
 		display_type_and_address(block);
-		if (block->pages)
-			total += display_pages(block);
-		else
-			total += display_large(block);
+		total += block->pages ? display_pages(block) : display_large(block);
 		block = block->next;
 	}
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putstr("bytes\n");
+	pthread_mutex_unlock(&g_m_mutex);
 }

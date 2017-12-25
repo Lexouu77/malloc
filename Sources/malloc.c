@@ -6,13 +6,14 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/21 21:25:14 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 16:30:34 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-t_block	*g_m_block = NULL;
+t_block			*g_m_block = NULL;
+pthread_mutex_t	g_m_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static void		*queue_block(t_block *block, size_t type)
 {
@@ -125,13 +126,14 @@ void			*malloc(size_t size)
 	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size);
 	const size_t	type = get_map_type(aligned_size);
 	void			*ptr;
+	void			*mapped_memory;
 
-// if trylock (cause called from realloc ?)
-//	if fail, call lock to block till you can lock.
 	if (!size)
 		return (NULL);
+	pthread_mutex_lock(&g_m_mutex);
 	if ((ptr = check_available_memory(aligned_size, type)))
-		return (insert_page(aligned_size, ptr));
-	// stock dans return et unlock
-	return (create_memory_block(aligned_size, type));
+		mapped_memory = insert_page(aligned_size, ptr);
+	mapped_memory = create_memory_block(aligned_size, type);
+	pthread_mutex_unlock(&g_m_mutex);
+	return (mapped_memory);
 }

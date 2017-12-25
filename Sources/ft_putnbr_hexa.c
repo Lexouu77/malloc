@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/05 04:43:33 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 21:03:27 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 18:25:21 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void		ft_putnbr_hexa(void *ptr, size_t line_feed)
 	}
 	else
 		str[size] = 0;
-	
 	nb = (unsigned long long)ptr;
 	while (--size >= 0)
 	{

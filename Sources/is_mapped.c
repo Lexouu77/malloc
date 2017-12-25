@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test5.c                                            :+:      :+:    :+:   */
+/*   is_mapped.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/25 14:53:19 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/25 15:08:45 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/25 18:20:54 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/25 18:21:11 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <pthread.h>
-#include <stdio.h>
 
-int main(void)
+size_t			is_mapped(void *ptr)
 {
-	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
-	int x;
+	t_block	*block;
+	t_page	*page;
 
-	printf("t\n");
-	x = pthread_mutex_lock(&mutex);
-	printf("??%d\n", x);
-	x = pthread_mutex_trylock(&mutex);
-	printf("??%d\n", x);
-	pthread_mutex_unlock(&mutex);
+	if (!(block = get_block(ptr)))
+		return (0);
+	if (!block->pages)
+		return (((void*)ptr == (void*)((char*)block + SZ_BLOCK)) ? 1 : 0);
+	page = block->pages;
+	while (page->next)
+	{
+		if ((void*)ptr == (void*)((char*)page + SZ_PAGE))
+			break ;
+		page = page->next;
+	}
+	if ((void*)ptr != (void*)((char*)page + SZ_PAGE))
+		return (0);
+	return (1);
 }

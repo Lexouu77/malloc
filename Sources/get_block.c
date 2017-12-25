@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 21:35:04 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/19 20:14:46 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 18:25:54 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			*get_block(void *ptr)
 	return (NULL);
 }
 
-void			*get_page(void*ptr, t_block *block)
+void			*get_page(void *ptr, t_block *block)
 {
 	t_page	*page;
 

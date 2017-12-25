@@ -6,13 +6,11 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/19 19:45:28 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/25 18:35:21 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-//TODO display nb of pages/alloc showall
 
 void				group_pages(t_block *block)
 {
@@ -45,7 +43,11 @@ static size_t		set_available(t_block *block, void *ptr)
 	t_page	*page;
 
 	if (!block->pages)
+	{
+		if ((void*)ptr != (void*)((char*)block + SZ_BLOCK))
+			pthread_mutex_unlock(&g_m_mutex);
 		return ((void*)ptr == (void*)((char*)block + SZ_BLOCK) ? 0 : 1);
+	}
 	page = block->pages;
 	while (page->next)
 	{
@@ -54,7 +56,10 @@ static size_t		set_available(t_block *block, void *ptr)
 		page = page->next;
 	}
 	if ((void*)ptr != (void*)((char*)page + SZ_PAGE))
+	{
+		pthread_mutex_unlock(&g_m_mutex);
 		return (1);
+	}
 	page->is_available = 1;
 	block->used_size -= (SZ_PAGE + page->size);
 	return (0);
@@ -81,6 +86,7 @@ void				free(void *ptr)
 
 	if (!ptr || !g_m_block)
 		return ;
+	pthread_mutex_lock(&g_m_mutex);
 	block = g_m_block;
 	while (block->next)
 	{
@@ -100,4 +106,5 @@ void				free(void *ptr)
 	}
 	else
 		group_pages(block);
+	pthread_mutex_unlock(&g_m_mutex);
 }

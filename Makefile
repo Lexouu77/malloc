@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/25 14:40:42 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/25 18:21:22 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRC += ft_putnbr.c
 SRC += get_block.c
 SRC += get_map_size.c
 SRC += get_map_type.c
+SRC += is_mapped.c
 SRC += malloc.c
 SRC += realloc.c
 SRC += reallocf.c
