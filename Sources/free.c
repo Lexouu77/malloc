@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/25 18:35:21 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/27 18:31:34 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ void				free(void *ptr)
 		block = block->next;
 	}
 	if (set_available(block, ptr))
+	{
+		pthread_mutex_unlock(&g_m_mutex);
 		return ;
+	}
 	if (is_unmappable(block))
 	{
 		if (!block->pages)
