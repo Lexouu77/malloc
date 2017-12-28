@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/25 18:29:22 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/28 16:59:21 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <sys/resource.h>
 # include <pthread.h>
+# include <fcntl.h>
 
 # define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
 # define ALIGN_M_64BIT 8
@@ -49,11 +50,11 @@
 
 # define HEXATABLE "0123456789ABCDEF"
 
-# define MALLOC_F 1
-# define FREE_F 2
-# define REALLOC_F 3
-# define REALLOCF_F 4
-# define CALLOC_F 5
+# define MALLOC_REF 1
+# define FREE_REF 2
+# define REALLOC_REF 3
+# define REALLOCF_REF 4
+# define CALLOC_REF 5
 
 extern	struct s_block		*g_m_block;
 extern	pthread_mutex_t		g_m_mutex;
@@ -74,16 +75,22 @@ typedef struct		s_block
 }					t_block;
 
 void				*calloc(size_t count, size_t size);
-size_t				check_mapped_size_and_type(t_block *p, size_t s, size_t t);
+size_t				check_mapped_size_and_type(t_block *p, size_t size,
+					size_t type);
+
 void				display_type_and_address(t_block *block);
 void				end_free(void) __attribute__((destructor));
 void				free(void *ptr);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				ft_putchar(char c);
+void				ft_putchar_fd(int fd, char c);
 void				ft_putnbr_hexa(void *ptr, size_t line_feed);
+void				ft_putnbr_hexa_fd(int fd, void *ptr, size_t line_feed);
 void				ft_putnbr(size_t nb);
+void				ft_putnbr_fd(int fd, size_t nb);
 void				ft_putstr(const char *s);
+void				ft_putstr_fd(int fd, const char *s);
 void				*get_block(void *ptr);
 void				*get_page(void *ptr, t_block *block);
 size_t				get_map_size(size_t size, size_t type);
@@ -94,5 +101,7 @@ void				*malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
 void				*reallocf(void *ptr, size_t size);
 void				show_alloc_mem(void);
+void				write_log_file(void *ptr, size_t size, size_t aligned_size,
+					int f);
 
 #endif

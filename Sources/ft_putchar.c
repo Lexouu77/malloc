@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:39:12 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/13 19:59:19 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/28 16:26:48 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,9 @@
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);
+}
+
+void	ft_putchar_fd(int fd, char c)
+{
+	write(fd, &c, 1);
 }

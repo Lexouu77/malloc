@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/27 19:59:21 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/28 16:09:22 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,16 @@ void			*malloc(size_t size)
 	void			*mapped_memory;
 
 	if (!size)
+	{
+		write_log_file(NULL, 0, 0, MALLOC_DEF);
 		return (NULL);
+	}
 	pthread_mutex_lock(&g_m_mutex);
 	if ((ptr = check_available_memory(aligned_size, type)))
 		mapped_memory = insert_page(aligned_size, ptr);
 	else
 		mapped_memory = create_memory_block(aligned_size, type);
+		write_log_file(mapped_memory, size, aligned_size, MALLOC_DEF);
 	pthread_mutex_unlock(&g_m_mutex);
 	return (mapped_memory);
 }
