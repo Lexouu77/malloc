@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/28 16:59:21 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/29 17:20:18 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <sys/resource.h>
 # include <pthread.h>
 # include <fcntl.h>
+
+# include <stdio.h> //to del
 
 # define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
 # define ALIGN_M_64BIT 8

@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 16:09:46 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/28 18:02:23 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/29 17:09:10 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,19 @@ static void	display_m_args(void *ptr, size_t size, size_t aligned_size, int fd)
 
 //static void	display_f_args()
 
+	// todo faire une fonction ou une ref pour invalid ptr free ?
+
 void		write_log_file(void *ptr, size_t size, size_t aligned_size, int f)
 {
 	int			fd;
 	const char	*s = getenv("MEMORY_LOG_FILE");
-	const char	ref[5] = {"Malloc", "Free", "Realloc", "Reallocf", "Calloc"};
+	const char	*ref[5] = {"Malloc", "Free", "Realloc", "Reallocf", "Calloc"};
 
 	if (!s || ft_strcmp(s, "1") || f < MALLOC_REF || f > CALLOC_REF)
 		return ;
 	if ((fd = open(".memory.log", O_WRONLY | O_CREAT | O_APPEND, 0644)) == -1)
 		return ;
-	if (f == REALLOC_REF || CALLOC_REF)
+	if (f == REALLOC_REF || f == CALLOC_REF)
 		ft_putstr_fd(fd, "\t");
 	if (f == REALLOCF_REF)
 		ft_putstr_fd(fd, "\t\t");
@@ -66,5 +68,3 @@ void		write_log_file(void *ptr, size_t size, size_t aligned_size, int f)
 	//ft_putstr_fd(fd, "\n");// ?
 	close(fd);
 	}
-
-	// todo faire une fonction ou une ref pour invalid ptr free ?
