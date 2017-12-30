@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/29 18:54:41 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/30 17:29:11 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,14 @@ static void		*queue_block(t_block *block, size_t type)
 	return ((void*)((char*)block + SZ_BLOCK +
 				(type == LARGE ? 0 : SZ_PAGE)));
 }
-
+/*
+static size_t	is_next_mapped(t_page *ptr, t_block *block, size_t size)
+{
+	if ()
+	return (1);
+	return (0);
+}
+*/
 static void		*insert_page(size_t size, void *ptr)
 {
 	t_block	*block;
@@ -53,17 +60,13 @@ static void		*insert_page(size_t size, void *ptr)
 	
 	if (!(block = get_block(ptr)))
 		return (NULL);
-	// printf("M : %zu == U %zu == S %zu\n", block->mapped_size, block->used_size, size);
-	// printf("%p == %p\n", (void*)block, ptr);
 	page = ptr;
-	//if (!page->next)
-	//	printf("next = %p\n", (void*)page->next);
-	
 	page->is_available = 0;
-	//if (page->next && SZ_PAGE + 8 <= page->size - size)
-	if (SZ_PAGE + 8 <= page->size - size)
+	if (2 * SZ_PAGE + 8 <= page->size - size)
+	// if (SZ_PAGE + 8 < page->size - size)
 	{
 		tmp = page->next;
+
 		page->next = (void*)((char*)page + SZ_PAGE + size);
 		page->next->next = tmp;
 		page->next->size = page->size - size - SZ_PAGE;
@@ -75,7 +78,6 @@ static void		*insert_page(size_t size, void *ptr)
 	{
 		block->used_size += SZ_PAGE + page->size;
 	}
-	//printf("M : %zu == U %zu == S %zu\n", block->mapped_size, block->used_size, size);
 	return ((void*)((char*)page + SZ_PAGE));
 }
 
@@ -84,8 +86,6 @@ static void		*create_memory_block(size_t size, size_t type)
 	const size_t	to_map_size = get_map_size(size, type);
 	t_page			*ptr;
 	t_block			*new_block;
-
-	//printf("SIZE : %zu [%zu]\n", size, to_map_size);
 
 	if ((new_block = (t_block *)mmap(0, to_map_size, PROT_READ | PROT_WRITE,
 					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
@@ -113,13 +113,11 @@ static void		*check_available_memory(size_t size, size_t type)
 	t_block	*ptr;
 	t_page	*page;
 
-	//printf("HI %s\n", __FUNCTION__);
 	if (!g_m_block || type == LARGE)
 		return (NULL);
 	ptr = g_m_block;
 	while (ptr)
 	{
-		//printf("m_s : %zu = u_s: %zu = s : %zu\n", ptr->mapped_size, ptr->used_size, size);
 		page = ptr->pages;
 		if (page && check_mapped_size_and_type(ptr, size, type))
 		{
@@ -127,7 +125,6 @@ static void		*check_available_memory(size_t size, size_t type)
 			{
 				if (page->is_available && page->size >= size + SZ_PAGE)
 				{
-					//printf("PAGE->SIZE = %zu\n", page->size);
 					return (page);
 				}
 				page = page->next;
@@ -152,19 +149,15 @@ void			*malloc(size_t size)
 		return (NULL);
 	}
 	pthread_mutex_lock(&g_m_mutex);
-	//printf("Malloc in SIZE : %zu (%zu)\n", size, aligned_size);
 	if ((ptr = check_available_memory(aligned_size, type)))
 	{
-	//	printf("1\n");
 		mapped_memory = insert_page(aligned_size, ptr);
 	}
 	else
 	{
-	//	printf("2\n");
-		mapped_memory = create_memory_block(aligned_size, type);
+			mapped_memory = create_memory_block(aligned_size, type);
 	}
 	//write_log_file(mapped_memory, size, aligned_size, MALLOC_REF);
-	//printf("Malloc out\n");
 	pthread_mutex_unlock(&g_m_mutex);
 	return (mapped_memory);
 }

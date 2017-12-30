@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/29 18:55:59 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/30 17:29:58 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void		*unlock_and_leave(void *ptr)
 {
-	//printf("Realloc out\n");
 	pthread_mutex_unlock(&g_m_mutex);
 	return (ptr);
 }
@@ -59,13 +58,11 @@ static void		*remap_block(void *ptr, size_t size)
 		page->next->is_available = 1;
 		page->next->size = tmp_s;
 		page->next->next = tmp;
-	//	printf("m_size: %zu == size : %zu\n", block->mapped_size, block->used_size);
 		return (unlock_and_leave(ptr));
 	}
 	page->size += page->next->size;
-	block->used_size += SZ_PAGE + page->next->size;
+	block->used_size += page->next->size;
 	page->next = page->next->next;
-	//printf("m_size: %zu == size : %zu\n", block->mapped_size, block->used_size);
 	return (unlock_and_leave(ptr));
 }
 
@@ -95,29 +92,23 @@ void			*realloc(void *ptr, size_t size)
 	if (!ptr)
 		return (malloc(size));
 	pthread_mutex_lock(&g_m_mutex);
-	//printf("Realloc in\n");
 	if (!is_mapped(ptr))
 	{
-	//	printf("Realloc out\n");
 		pthread_mutex_unlock(&g_m_mutex);
 		return (NULL);
 	}
 	if (!size)
 	{
-	//	printf("Realloc out\n");
 		pthread_mutex_unlock(&g_m_mutex);
 		free(ptr);
 		return (NULL);
 	}
 	if (is_same_type(ptr, size) && is_remappable(ptr, size))
 		return (remap_block(ptr, size));
-	//printf("Realloc out\n");	
 	pthread_mutex_unlock(&g_m_mutex);
 	if ((mapped_ptr = malloc(size)))
 	{
-	//	pthread_mutex_lock(&g_m_mutex);
 		ft_memcpy(mapped_ptr, ptr, size);
-	//	pthread_mutex_unlock(&g_m_mutex);
 		free(ptr);
 	}
 	return (mapped_ptr);
