@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/29 17:20:18 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/30 18:32:59 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void				display_type_and_address(t_block *block);
 void				end_free(void) __attribute__((destructor));
 void				free(void *ptr);
 void				ft_bzero(void *s, size_t n);
-void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				ft_putchar(char c);
 void				ft_putchar_fd(int fd, char c);
 void				ft_putnbr_hexa(void *ptr, size_t line_feed);
@@ -100,6 +99,7 @@ size_t				get_map_type(size_t size);
 void				group_pages(t_block *block);
 size_t				is_mapped(void *ptr);
 void				*malloc(size_t size);
+void				*memcpy_no_segfault(void *dest, void *src, size_t n);
 void				*realloc(void *ptr, size_t size);
 void				*reallocf(void *ptr, size_t size);
 void				show_alloc_mem(void);

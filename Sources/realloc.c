@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 17:29:58 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/30 18:33:28 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void			*realloc(void *ptr, size_t size)
 	pthread_mutex_unlock(&g_m_mutex);
 	if ((mapped_ptr = malloc(size)))
 	{
-		ft_memcpy(mapped_ptr, ptr, size);
+		memcpy_no_segfault(mapped_ptr, ptr, size);
 		free(ptr);
 	}
 	return (mapped_ptr);

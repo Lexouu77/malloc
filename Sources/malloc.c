@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 17:29:11 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/30 18:20:34 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static void		*insert_page(size_t size, void *ptr)
 	page = ptr;
 	page->is_available = 0;
 	if (2 * SZ_PAGE + 8 <= page->size - size)
-	// if (SZ_PAGE + 8 < page->size - size)
 	{
 		tmp = page->next;
 
