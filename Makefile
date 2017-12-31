@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2017/12/30 18:23:39 by ahamouda         ###   ########.fr        #
+#    Updated: 2017/12/31 15:36:10 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,8 +70,8 @@ SRC += malloc.c
 SRC += memcpy_no_segfault.c
 SRC += realloc.c
 SRC += reallocf.c
+SRC += show_alloc_mem_more.c
 SRC += show_alloc_mem.c
-SRC += write_log_file.c
 
 vpath %.c $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 

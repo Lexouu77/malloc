@@ -8,12 +8,12 @@
 - [x] realloc
 - [x] Show_alloc_mem
 
-- [ ] Show_alloc_mem_plus(hexa?) //TODO display nb of pages/alloc showall
+- [ ] Show_alloc_mem_more
 - [x] Memory defrag
 - [x] Memory opti + 8bits aligned + Limited syscall number.
 - [x] Thread Safe
 - [x] Unmap the memory at the end of program.
 - [x] calloc
 - [x] reallocf
-- [ ] logfile ?
-- [ ] debug env var for logfile (activate logfile bonus | filename)
+- [ ] Documentation ?
+- [ ] Test files

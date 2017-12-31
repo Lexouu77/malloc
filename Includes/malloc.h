@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 18:32:59 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 16:06:04 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 # include <unistd.h>
 # include <sys/resource.h>
 # include <pthread.h>
-# include <fcntl.h>
-
-# include <stdio.h> //to del
 
 # define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
 # define ALIGN_M_64BIT 8
@@ -29,15 +26,15 @@
 ** # define ALIGN_GETPAGESIZE (size_t)getpagesize()
 */
 
-# define N_MIN_ALLOC 100
-
+/*
+** # define N_MIN_ALLOC 100
+*/
 # define TINY_MAX (size_t)1696
 # define TINY_N_PAGE 42
 
 /*
 ** (SZ_BLOCK + (N_MIN_ALLOC * SZ_PAGE) + (N_MIN_ALLOC * TINY_MAX)) / getpagesize
 ** = TINY_N_PAGE
-** TODO Change TINY_N_PAGE par ce machin ?
 */
 
 # define SMALL_MAX (size_t)4768
@@ -52,14 +49,21 @@
 
 # define HEXATABLE "0123456789ABCDEF"
 
-# define MALLOC_REF 1
-# define FREE_REF 2
-# define REALLOC_REF 3
-# define REALLOCF_REF 4
-# define CALLOC_REF 5
-
 extern	struct s_block		*g_m_block;
 extern	pthread_mutex_t		g_m_mutex;
+
+typedef struct		s_alloc_mem
+{
+	size_t			total_size;
+	size_t			total_used;
+	size_t			n_alloc;
+	size_t			n_tiny_alloc;
+	size_t			n_small_alloc;
+	size_t			n_large_alloc;
+	size_t			n_tiny;
+	size_t			n_small;
+	size_t			n_large;
+}					t_alloc_mem;
 
 typedef struct		s_page
 {
@@ -80,6 +84,8 @@ void				*calloc(size_t count, size_t size);
 size_t				check_mapped_size_and_type(t_block *p, size_t size,
 					size_t type);
 
+void				display_type_and_address_more(t_block *block,
+					t_alloc_mem *m_info);
 void				display_type_and_address(t_block *block);
 void				end_free(void) __attribute__((destructor));
 void				free(void *ptr);
@@ -102,8 +108,7 @@ void				*malloc(size_t size);
 void				*memcpy_no_segfault(void *dest, void *src, size_t n);
 void				*realloc(void *ptr, size_t size);
 void				*reallocf(void *ptr, size_t size);
+void				show_alloc_mem_more(void);
 void				show_alloc_mem(void);
-void				write_log_file(void *ptr, size_t size, size_t aligned_size,
-					int f);
 
 #endif

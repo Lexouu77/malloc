@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:42:19 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 18:34:11 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 12:18:25 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			*memcpy_no_segfault(void *dest, void *src, size_t n)
 {
 	size_t		i;
 	void		*max;
-	
+
 	max = get_max(src);
 	if (!max)
 		return (NULL);

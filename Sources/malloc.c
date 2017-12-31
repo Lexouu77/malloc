@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 18:20:34 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 16:06:32 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,13 @@ static void		*queue_block(t_block *block, size_t type)
 	return ((void*)((char*)block + SZ_BLOCK +
 				(type == LARGE ? 0 : SZ_PAGE)));
 }
-/*
-static size_t	is_next_mapped(t_page *ptr, t_block *block, size_t size)
-{
-	if ()
-	return (1);
-	return (0);
-}
-*/
+
 static void		*insert_page(size_t size, void *ptr)
 {
 	t_block	*block;
 	t_page	*page;
 	t_page	*tmp;
 
-	
 	if (!(block = get_block(ptr)))
 		return (NULL);
 	page = ptr;
@@ -65,7 +57,6 @@ static void		*insert_page(size_t size, void *ptr)
 	if (2 * SZ_PAGE + 8 <= page->size - size)
 	{
 		tmp = page->next;
-
 		page->next = (void*)((char*)page + SZ_PAGE + size);
 		page->next->next = tmp;
 		page->next->size = page->size - size - SZ_PAGE;
@@ -134,7 +125,6 @@ static void		*check_available_memory(size_t size, size_t type)
 	return (NULL);
 }
 
-
 void			*malloc(size_t size)
 {
 	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size);
@@ -143,20 +133,12 @@ void			*malloc(size_t size)
 	void			*mapped_memory;
 
 	if (!size)
-	{
-	//	write_log_file(NULL, 0, 0, MALLOC_REF);
 		return (NULL);
-	}
 	pthread_mutex_lock(&g_m_mutex);
 	if ((ptr = check_available_memory(aligned_size, type)))
-	{
 		mapped_memory = insert_page(aligned_size, ptr);
-	}
 	else
-	{
-			mapped_memory = create_memory_block(aligned_size, type);
-	}
-	//write_log_file(mapped_memory, size, aligned_size, MALLOC_REF);
+		mapped_memory = create_memory_block(aligned_size, type);
 	pthread_mutex_unlock(&g_m_mutex);
 	return (mapped_memory);
 }

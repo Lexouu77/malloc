@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 14:17:07 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 12:21:28 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static void			cut_link(t_block *block)
 			ptr = ptr->next;
 		ptr->next = block->next;
 	}
+	munmap(block, block->mapped_size);
 }
 
 void				free(void *ptr)
@@ -87,7 +88,6 @@ void				free(void *ptr)
 	if (!ptr || !g_m_block)
 		return ;
 	pthread_mutex_lock(&g_m_mutex);
-	//printf("Free in\n");
 	block = g_m_block;
 	while (block->next)
 	{
@@ -97,20 +97,15 @@ void				free(void *ptr)
 	}
 	if (set_available(block, ptr))
 	{
-	//	printf("free out\n");
 		pthread_mutex_unlock(&g_m_mutex);
 		return ;
 	}
 	if (is_unmappable(block))
 	{
 		if (!block->pages)
-		{
 			cut_link(block);
-			munmap(block, block->mapped_size);
-		}
 	}
 	else
 		group_pages(block);
-	//printf("free out\n");
 	pthread_mutex_unlock(&g_m_mutex);
 }

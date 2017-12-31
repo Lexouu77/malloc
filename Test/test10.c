@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/27 18:26:57 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 18:35:55 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 12:16:05 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static void	*thread_foo(void *arg)
 	{
 		// ptr = malloc(TINY_MAX - 2);
 		// ptr = malloc(TINY_MAX - 2);
-		ptr = malloc(50);
 		ptr = malloc(16);
+		ptr = malloc(32);
 	//	ptr = realloc(ptr, SMALL_MAX); // memcpy
-		ptr = realloc(ptr, 30); // underflow
-		free(ptr);
+		//ptr = realloc(ptr, 30); // underflow
+		//free(ptr);
 		//if (i % NB_THREADS == 0)
 			//show_alloc_mem();
 		i++;
