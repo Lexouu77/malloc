@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   free_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/23 20:39:55 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/31 17:51:55 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/31 18:01:21 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/31 18:01:29 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-int main(void)
+int	main(void)
 {
 	int		i;
 	char	*addr;
@@ -20,6 +20,9 @@ int main(void)
 	i = 0;
 	while (i < 1024)
 	{
+		addr = (char*)malloc(1024);
+		addr[0] = 42;
+		free(addr);
 		i++;
 	}
 	return (0);

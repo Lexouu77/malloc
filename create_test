@@ -1,0 +1,9 @@
+#!/bin/sh
+
+FILES="./Test/*"
+
+for f in $FILES
+do
+	NAME=$(echo $f | cut -c 8- | rev | cut -c 3- |rev)
+	echo "$NAME\n$f"
+done

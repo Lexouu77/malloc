@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   realloc_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/23 20:39:55 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/31 17:51:55 by ahamouda         ###   ########.fr       */
+/*   Created: 2017/12/31 18:04:01 by ahamouda          #+#    #+#             */
+/*   Updated: 2017/12/31 18:07:43 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-int main(void)
-{
-	int		i;
-	char	*addr;
+#define M (1024 * 1024)
 
-	i = 0;
-	while (i < 1024)
-	{
-		i++;
-	}
+void	print(char *s)
+{
+	write(1, s, strlen(s));
+}
+
+int		main(void)
+{
+	char	*addr1;
+	char	*addr3;
+
+	addr1 = (char*)malloc(16 * M);
+	strcpy(addr1, "Bonjours\n");
+	print(addr1);
+	addr3 = (char*)realloc(addr1, 128 * M);
+	addr3[127 * M] = 42;
+	print(addr3);
 	return (0);
 }
