@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/31 16:06:04 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 17:19:44 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ extern	pthread_mutex_t		g_m_mutex;
 
 typedef struct		s_alloc_mem
 {
+	size_t			display;
 	size_t			total_size;
 	size_t			total_used;
 	size_t			n_alloc;

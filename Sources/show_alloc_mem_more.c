@@ -6,20 +6,18 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 15:01:29 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/31 16:07:02 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 17:24:58 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static size_t	display_pages_more(t_block *block, t_alloc_mem *m_info)
+static void		display_pages_more(t_block *block, t_alloc_mem *m_info)
 {
 	t_page	*ptr;
-	size_t	size;
 	int		i;
 
 	i = (block->mapped_size == TINY_N_PAGE * (size_t)getpagesize()) ? 1 : 0;
-	size = 0;
 	ptr = block->pages;
 	while (ptr)
 	{
@@ -27,34 +25,43 @@ static size_t	display_pages_more(t_block *block, t_alloc_mem *m_info)
 		{
 			m_info->n_alloc++;
 			i ? m_info->n_tiny_alloc++ : m_info->n_small_alloc++;
-			ft_putnbr_hexa((void*)ptr, 0);
-			ft_putstr(" - ");
-			ft_putnbr_hexa((void*)((char*)ptr + ptr->size), 0);
-			ft_putstr(" : ");
-			ft_putnbr(ptr->size);
-			size += ptr->size;
-			ft_putstr(" bytes\n");
+			if (m_info->display)
+			{
+				ft_putnbr_hexa((void*)ptr, 0);
+				ft_putstr(" - ");
+				ft_putnbr_hexa((void*)((char*)ptr + ptr->size), 0);
+				ft_putstr(" : ");
+				ft_putnbr(ptr->size);
+				ft_putstr(" bytes\n");
+			}
 		}
 		ptr = ptr->next;
 	}
-	return (size);
 }
 
-static size_t	display_large_more(t_block *block, t_alloc_mem *m_info)
+static void		display_large_more(t_block *block, t_alloc_mem *m_info)
 {
 	m_info->n_alloc++;
 	m_info->n_large_alloc++;
+	if (!m_info->display)
+		return ;
 	ft_putnbr_hexa((void*)block, 0);
 	ft_putstr(" - ");
 	ft_putnbr_hexa((void*)((char*)block + block->used_size), 0);
 	ft_putstr(" : ");
 	ft_putnbr(block->used_size);
 	ft_putstr(" bytes\n");
-	return (block->used_size);
 }
 
 static void		init_m_info(t_alloc_mem *m_info)
 {
+	char	*s;
+
+	s = getenv("M_DISPLAY");
+	if (s && s[0] == '1')
+		m_info->display = 1;
+	else
+		m_info->display = 0;
 	m_info->total_size = 0;
 	m_info->total_used = 0;
 	m_info->n_alloc = 0;
@@ -68,7 +75,7 @@ static void		init_m_info(t_alloc_mem *m_info)
 
 static void		display_all_info(t_alloc_mem m_info)
 {
-	ft_putstr("Memory : [");
+	ft_putstr("\nMemory      : [");
 	ft_putnbr(m_info.total_used);
 	ft_putchar('/');
 	ft_putnbr(m_info.total_size);
@@ -76,7 +83,7 @@ static void		display_all_info(t_alloc_mem m_info)
 	ft_putnbr(m_info.total_size - m_info.total_used);
 	ft_putstr("]\nTotal pages : [");
 	ft_putnbr(m_info.total_size / (size_t)getpagesize());
-	ft_putstr("]\nNumber of allocation [Tiny|Small|Large] [");
+	ft_putstr("]\nNumber of allocation   [Tiny|Small|Large] [");
 	ft_putnbr(m_info.n_tiny_alloc);
 	ft_putchar('|');
 	ft_putnbr(m_info.n_small_alloc);

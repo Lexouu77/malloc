@@ -8,7 +8,8 @@
 - [x] realloc
 - [x] Show_alloc_mem
 
-- [ ] Show_alloc_mem_more
+- [x] Show_alloc_mem_more
+- [x] Var env for show_alloc_mem_more
 - [x] Memory defrag
 - [x] Memory opti + 8bits aligned + Limited syscall number.
 - [x] Thread Safe

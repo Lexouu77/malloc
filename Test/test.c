@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/23 20:39:55 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/23 20:40:37 by ahamouda         ###   ########.fr       */
+/*   Updated: 2017/12/31 17:05:40 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,6 @@ int main(void)
 		addr[0] = 42;
 		i++;
 	}
-	show_alloc_mem();
+	show_alloc_mem_more();
 	return (0);
 }
-/*
-int main(void)
-{
-	char	*ptr;
-
-	ptr = mmap(0, 40960, PROT_READ | PROT_WRITE,
-					MAP_ANON | MAP_PRIVATE, -1, 0);
-	munmap(ptr, 40960);
-	
-	return 0;
-}*/
