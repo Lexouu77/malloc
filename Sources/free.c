@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 20:02:03 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/31 12:21:28 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/01/01 18:38:18 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void				group_pages(t_block *block)
 static size_t		is_unmappable(t_block *block)
 {
 	if (!block->pages)
-		return (1);
-	if (block->used_size == SZ_BLOCK)
 		return (1);
 	return (0);
 }
