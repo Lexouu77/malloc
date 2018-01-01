@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test5.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/25 14:53:19 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/25 15:08:45 by ahamouda         ###   ########.fr       */
+/*   Created: 2018/01/01 17:33:11 by ahamouda          #+#    #+#             */
+/*   Updated: 2018/01/01 17:42:24 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <pthread.h>
-#include <stdio.h>
 
-int main(void)
+int	main(void)
 {
-	pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
-	int x;
+	char	*addr;
 
-	printf("t\n");
-	x = pthread_mutex_lock(&mutex);
-	printf("??%d\n", x);
-	x = pthread_mutex_trylock(&mutex);
-	printf("??%d\n", x);
-	pthread_mutex_unlock(&mutex);
+	//addr = (char*)malloc(1024);
+	addr = (char*)malloc(1024);
+	addr[0] = 42;
+	//free(addr);
+//	show_alloc_mem_more();
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 18:39:16 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/17 12:55:46 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/01/01 17:57:59 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void		end_free(void)
 		block = block->next;
 		munmap(to_kill, to_kill->mapped_size);
 	}
+	return ;
 }

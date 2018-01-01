@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/31 17:58:29 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/31 17:59:16 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/01/01 18:07:41 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int	main(void)
 		addr[0] = 42;
 		i++;
 	}
+	//show_alloc_mem_more();
 	return (0);
 }
