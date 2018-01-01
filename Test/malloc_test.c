@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-int main(void)
+int	main(void)
 {
 	int		i;
 	char	*addr;

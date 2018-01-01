@@ -1,9 +1,11 @@
 #!/bin/sh
 
-FILES="./Test/*"
+TESTDIR="./Test/*"
+EXDIR="Test_ex"
 
-for f in $FILES
+mkdir $EXDIR
+for f in $TESTDIR
 do
 	NAME=$(echo $f | cut -c 8- | rev | cut -c 3- |rev)
-	echo "$NAME\n$f"
+	gcc $f -o $EXDIR/$NAME -L./ libft_malloc.so -I Includes -lpthread
 done
