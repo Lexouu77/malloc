@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 18:39:16 by ahamouda          #+#    #+#             */
-/*   Updated: 2018/01/01 17:57:59 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/02/27 16:48:37 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,8 @@ void		end_free(void)
 	}
 	return ;
 }
+
+/*
+** We could add every mapped_size and do one munmap.
+** But memory could be not continuous so nope.
+*/

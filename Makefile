@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2018/01/01 15:18:08 by ahamouda         ###   ########.fr        #
+#    Updated: 2018/01/04 18:33:59 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC_SUBDIR += .
 
 SRC = calloc.c
 SRC += check_mapped_size_and_type.c
+SRC += create_starting_zone.c
 SRC += display_type_and_address.c
 SRC += end_free.c
 SRC += free.c
@@ -84,8 +85,6 @@ $(NAME) : $(OBJECTS)
 
 $(LINK) :
 	ln -sf $(NAME) $(LINK)
-
-
 
 $(OBJECTS): $(HEADERS) | $(OBJ_PATH)
 

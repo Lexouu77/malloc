@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2018/01/01 18:37:35 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:38:34 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void		*create_memory_block(size_t size, size_t type)
 	ptr->next = (void*)((char*)ptr + SZ_PAGE + size);
 	ptr->next->size = new_block->mapped_size - new_block->used_size;
 	ptr->next->is_available = 1;
-	ptr->next->next = NULL; 
+	ptr->next->next = NULL;
 	new_block->pages = ptr;
 	return (queue_block(new_block, type));
 }

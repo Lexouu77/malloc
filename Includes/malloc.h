@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2018/01/01 18:15:02 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:35:22 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct		s_block
 void				*calloc(size_t count, size_t size);
 size_t				check_mapped_size_and_type(t_block *p, size_t size,
 					size_t type);
+
+void				create_starting_zone(void) __attribute__((constructor));
 
 void				display_type_and_address_more(t_block *block,
 					t_alloc_mem *m_info);
