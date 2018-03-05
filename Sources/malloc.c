@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 11:44:42 by ahamouda          #+#    #+#             */
-/*   Updated: 2018/02/27 17:38:34 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/03/05 18:44:53 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static void		*check_available_memory(size_t size, size_t type)
 
 void			*malloc(size_t size)
 {
-	const size_t	aligned_size = ALIGN(ALIGN_M_64BIT, size);
+	const size_t	aligned_size = align(ALIGN_M_64BIT, size);
 	const size_t	type = get_map_type(aligned_size);
 	void			*ptr;
 	void			*mapped_memory;

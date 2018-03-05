@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:35:35 by ahamouda          #+#    #+#             */
-/*   Updated: 2017/12/30 18:33:28 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/03/05 18:44:53 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static size_t	is_same_type(void *ptr, size_t size)
 
 	if (!(block = get_block(ptr)))
 		return (0);
-	type = get_map_type(ALIGN(ALIGN_M_64BIT, size));
+	type = get_map_type(align(ALIGN_M_64BIT, size));
 	if (!block->pages && type == LARGE)
 		return (1);
 	if (block->mapped_size == (size_t)getpagesize() * SMALL_N_PAGE &&

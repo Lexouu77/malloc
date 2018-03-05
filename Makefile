@@ -6,7 +6,7 @@
 #    By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/27 01:48:43 by ahamouda          #+#    #+#              #
-#    Updated: 2018/01/04 18:33:59 by ahamouda         ###   ########.fr        #
+#    Updated: 2018/03/05 18:39:15 by ahamouda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,8 @@ OBJECTS = $(addprefix $(OBJ_PATH)/, $(SRC:%.c=%.o))
 SRC_PATH = ./Sources
 SRC_SUBDIR += .
 
-SRC = calloc.c
+SRC = align.c
+SRC += calloc.c
 SRC += check_mapped_size_and_type.c
 SRC += create_starting_zone.c
 SRC += display_type_and_address.c

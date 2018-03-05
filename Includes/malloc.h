@@ -6,7 +6,7 @@
 /*   By: ahamouda <ahamouda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:32 by ahamouda          #+#    #+#             */
-/*   Updated: 2018/02/27 17:35:22 by ahamouda         ###   ########.fr       */
+/*   Updated: 2018/03/05 18:46:19 by ahamouda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <sys/resource.h>
 # include <pthread.h>
 
-# define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
+/*
+** # define ALIGN(algt, size) (size_t)size + algt - 1 & (size_t)~(algt - 1)
+*/
 # define ALIGN_M_64BIT 8
 
 /*
@@ -81,6 +83,7 @@ typedef struct		s_block
 	struct s_block	*next;
 }					t_block;
 
+size_t				align(size_t alignement, size_t size);
 void				*calloc(size_t count, size_t size);
 size_t				check_mapped_size_and_type(t_block *p, size_t size,
 					size_t type);
